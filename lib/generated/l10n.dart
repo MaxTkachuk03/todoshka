@@ -59,6 +59,98 @@ class S {
       args: [],
     );
   }
+
+  /// `Усі`
+  String get all {
+    return Intl.message(
+      'Усі',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Робочі`
+  String get works {
+    return Intl.message(
+      'Робочі',
+      name: 'works',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Особисті`
+  String get pesonal {
+    return Intl.message(
+      'Особисті',
+      name: 'pesonal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Створити`
+  String get create {
+    return Intl.message(
+      'Створити',
+      name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Видалити`
+  String get delete {
+    return Intl.message(
+      'Видалити',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Назва завдання...`
+  String get nameTask {
+    return Intl.message(
+      'Назва завдання...',
+      name: 'nameTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Термінове`
+  String get urgent {
+    return Intl.message(
+      'Термінове',
+      name: 'urgent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дата завершення:`
+  String get endDate {
+    return Intl.message(
+      'Дата завершення:',
+      name: 'endDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Прикріпити файл`
+  String get attachFile {
+    return Intl.message(
+      'Прикріпити файл',
+      name: 'attachFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  // skipped getter for the 'add description' key
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

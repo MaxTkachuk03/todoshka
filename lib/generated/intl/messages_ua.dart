@@ -21,6 +21,16 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ua';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) =>
-      <String, Function>{"exit": MessageLookupByLibrary.simpleMessage("Вхід")};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "all": MessageLookupByLibrary.simpleMessage("Усі"),
+        "attachFile": MessageLookupByLibrary.simpleMessage("Прикріпити файл"),
+        "create": MessageLookupByLibrary.simpleMessage("Створити"),
+        "delete": MessageLookupByLibrary.simpleMessage("Видалити"),
+        "endDate": MessageLookupByLibrary.simpleMessage("Дата завершення:"),
+        "exit": MessageLookupByLibrary.simpleMessage("Вхід"),
+        "nameTask": MessageLookupByLibrary.simpleMessage("Назва завдання..."),
+        "pesonal": MessageLookupByLibrary.simpleMessage("Особисті"),
+        "urgent": MessageLookupByLibrary.simpleMessage("Термінове"),
+        "works": MessageLookupByLibrary.simpleMessage("Робочі")
+      };
 }
