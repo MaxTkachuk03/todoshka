@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/resources/colors.dart';
+import 'package:todoshka/resources/fonts.dart';
 
 class EnterButton extends StatelessWidget {
   const EnterButton({
@@ -21,6 +22,8 @@ class EnterButton extends StatelessWidget {
           style: const TextStyle(
             color: AppColors.black,
             fontSize: 24.0,
+            fontFamily: AppFonts.fontFamily,
+            fontWeight: AppFonts.normal,
           ),
         ),
         shape: const RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoshka/pages/main_page.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/widgets/buttons/enter_button.dart';
 
@@ -27,7 +28,13 @@ class _EntrancePageState extends State<EntrancePage> {
                 flex: 2,
               ),
               EnterButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    MainPage.routeName,
+                    (route) => false,
+                  );
+                },
               ),
               const Spacer(),
             ],
