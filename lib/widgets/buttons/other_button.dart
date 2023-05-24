@@ -1,31 +1,33 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:todoshka/generated/l10n.dart';
-import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/resources/styles.dart';
 
-class EnterButton extends StatelessWidget {
-  const EnterButton({
+class OtherButton extends StatelessWidget {
+  const OtherButton({
     super.key,
     required this.onPressed,
+    required this.text,
+    required this.color,
   });
 
   final void Function() onPressed;
+  final String text;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50.0,
-      width: 140.0,
+      width: 170.0,
       child: FloatingActionButton.extended(
         label: AutoSizeText(
-          S.of(context).exit,
-          style: AppStyles.buttonStyle,
+          text,
           minFontSize: 18.0,
           maxFontSize: 24.0,
+          style: AppStyles.buttonStyle,
         ),
         extendedPadding: const EdgeInsets.symmetric(
-          horizontal: 45.0,
+          horizontal: 30.0,
           vertical: 10.0,
         ),
         shape: const RoundedRectangleBorder(
@@ -34,7 +36,7 @@ class EnterButton extends StatelessWidget {
           ),
         ),
         enableFeedback: true,
-        backgroundColor: AppColors.yellow,
+        backgroundColor: color,
         onPressed: onPressed,
       ),
     );

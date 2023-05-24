@@ -17,13 +17,18 @@ class PlusButton extends StatelessWidget {
     return Container(
       height: 71.0,
       width: 71.0,
-      decoration: const BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: AppColors.blackShadow,
-          offset: Offset(0, 4.0),
-          blurRadius: 4.0,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
         ),
-      ]),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.blackShadow,
+            offset: Offset(0, 4.0),
+            blurRadius: 4.0,
+          ),
+        ],
+      ),
       child: FloatingActionButton.extended(
         heroTag: S.of(context).create,
         label: SvgPicture.asset(

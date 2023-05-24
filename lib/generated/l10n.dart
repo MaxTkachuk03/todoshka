@@ -150,7 +150,15 @@ class S {
     );
   }
 
-  // skipped getter for the 'add description' key
+  /// `Додати опис...`
+  String get addDescription {
+    return Intl.message(
+      'Додати опис...',
+      name: 'addDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

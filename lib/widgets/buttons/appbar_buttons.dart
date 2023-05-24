@@ -22,16 +22,27 @@ class AppBarButton extends StatelessWidget {
     return Container(
       height: 48.0,
       width: 106.0,
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(),
-        ],
-      ),
+      decoration: isEnabled == true
+          ? const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.blackShadow,
+                  offset: Offset(0, 4.0),
+                  blurRadius: 4.0,
+                ),
+              ],
+            )
+          : null,
       child: FloatingActionButton.extended(
         autofocus: true,
         heroTag: heroTag,
         label: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 13.0,
+          ),
           child: AutoSizeText(
             label,
             maxLines: 1,

@@ -18,4 +18,5 @@ class AppColors {
   static const beige = Color.fromRGBO(251, 239, 180, 1);
   static const blackSecond = Color.fromRGBO(56, 56, 56, 1);
   static const blackShadow = Color.fromRGBO(0, 0, 0, 0.25);
+  static const nullable = Color.fromRGBO(0, 0, 0, 0);
 }

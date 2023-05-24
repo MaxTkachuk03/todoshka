@@ -15,9 +15,9 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final bool active = false;
 
-  int counter = 0;
+  int counter = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,15 +48,27 @@ class _MainPageState extends State<MainPage> {
                     heroTag: S.of(context).all,
                   ),
                   AppBarButton(
-                    isEnabled: active,
+                    isEnabled: counter == 2 ? true : false,
                     label: S.of(context).works,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(
+                        () {
+                          counter = 2;
+                        },
+                      );
+                    },
                     heroTag: S.of(context).works,
                   ),
                   AppBarButton(
-                    isEnabled: active,
+                    isEnabled: counter == 3 ? true : false,
                     label: S.of(context).personal,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(
+                        () {
+                          counter = 3;
+                        },
+                      );
+                    },
                     heroTag: S.of(context).personal,
                   ),
                 ],
@@ -71,7 +83,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     child: PlusButton(
                       onPressed: () {
-                        Navigator.of(context).popAndPushNamed(
+                        Navigator.of(context).pushNamed(
                           CreatingPage.routeName,
                         );
                       },
