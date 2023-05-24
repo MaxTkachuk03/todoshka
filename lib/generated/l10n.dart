@@ -81,10 +81,10 @@ class S {
   }
 
   /// `Особисті`
-  String get pesonal {
+  String get personal {
     return Intl.message(
       'Особисті',
-      name: 'pesonal',
+      name: 'personal',
       desc: '',
       args: [],
     );

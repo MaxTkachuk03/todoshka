@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "endDate": MessageLookupByLibrary.simpleMessage("Дата завершення:"),
         "exit": MessageLookupByLibrary.simpleMessage("Вхід"),
         "nameTask": MessageLookupByLibrary.simpleMessage("Назва завдання..."),
-        "pesonal": MessageLookupByLibrary.simpleMessage("Особисті"),
+        "personal": MessageLookupByLibrary.simpleMessage("Особисті"),
         "urgent": MessageLookupByLibrary.simpleMessage("Термінове"),
         "works": MessageLookupByLibrary.simpleMessage("Робочі")
       };
