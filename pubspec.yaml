@@ -102,7 +102,7 @@ flutter:
 flutter_intl:
   enabled: true
   class_name: S 
-  main_locale: ua  
+  main_locale: uk  
   arb_dir: lib/l10n 
   output_dir: lib/generated 
   use_deferred_loading: false

@@ -19,9 +19,14 @@ class AppBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 48.0,
       width: 106.0,
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(),
+        ],
+      ),
       child: FloatingActionButton.extended(
         autofocus: true,
         heroTag: heroTag,

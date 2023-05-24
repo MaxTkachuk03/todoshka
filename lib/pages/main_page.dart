@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
+import 'package:todoshka/pages/create_page.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/widgets/buttons/appbar_buttons.dart';
 import 'package:todoshka/widgets/buttons/plus_buton.dart';
@@ -15,6 +16,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final bool active = false;
+
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +36,15 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppBarButton(
-                    isEnabled: active,
+                    isEnabled: counter == 1 ? true : false,
                     label: S.of(context).all,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(
+                        () {
+                          counter = 1;
+                        },
+                      );
+                    },
                     heroTag: S.of(context).all,
                   ),
                   AppBarButton(
@@ -58,10 +67,14 @@ class _MainPageState extends State<MainPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                     right: 12.0,
+                      right: 12.0,
                     ),
                     child: PlusButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).popAndPushNamed(
+                          CreatingPage.routeName,
+                        );
+                      },
                     ),
                   ),
                 ],
