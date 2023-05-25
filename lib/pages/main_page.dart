@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/create_page.dart';
+import 'package:todoshka/pages/edit_page.dart';
+import 'package:todoshka/repository/api_services.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/widgets/buttons/appbar_buttons.dart';
 import 'package:todoshka/widgets/buttons/plus_buton.dart';
@@ -15,12 +17,24 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   int counter = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          right: 12.0,
+        ),
+        child: PlusButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              EditPage.routeName,
+              //CreatingPage.routeName,
+            );
+          },
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.gradient,
@@ -74,23 +88,6 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
               //ListView.builder(itemBuilder: (context, index) => Container()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: 12.0,
-                    ),
-                    child: PlusButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          CreatingPage.routeName,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
               const Spacer(),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/main_page.dart';
 import 'package:todoshka/resources/colors.dart';
@@ -18,8 +19,25 @@ class CreatingPage extends StatefulWidget {
 }
 
 class _CreatingPageState extends State<CreatingPage> {
+  DateTime selectedDate = DateTime.now();
+  bool click = false;
   int counter = 0;
   int urgent = 0;
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 1),
+        lastDate: DateTime(2050));
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -192,11 +210,24 @@ class _CreatingPageState extends State<CreatingPage> {
                 children: [
                   const Spacer(),
                   TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      S.of(context).endDate,
-                      style: AppStyles.simpleStyle,
-                    ),
+                    onPressed: () {
+                      _selectDate(
+                        context,
+                      );
+                      setState(() {
+                        click = true;
+                      });
+                    },
+                    child: click == true
+                        ? Text(
+                            "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
+                            //"${selectedDate.toLocal()}".split(' ')[0],
+                            style: AppStyles.simpleStyle,
+                          )
+                        : Text(
+                            S.of(context).endDate,
+                            style: AppStyles.simpleStyle,
+                          ),
                   ),
                   const Spacer(
                     flex: 3,
@@ -220,20 +251,9 @@ class _CreatingPageState extends State<CreatingPage> {
                     children: [
                       IconButtonWrapper(
                         onPressed: () {
-                          GestureDetector(
-                            onTap: () {
-                              setState(
-                                () {
-                                  urgent = 1;
-                                },
-                              );
-                            },
-                            onDoubleTap: () {
-                              setState(
-                                () {
-                                  urgent = 0;
-                                },
-                              );
+                          setState(
+                            () {
+                              urgent++;
                             },
                           );
                         },
@@ -241,7 +261,7 @@ class _CreatingPageState extends State<CreatingPage> {
                           AppIcons.circle,
                         ),
                       ),
-                      urgent == 1
+                      urgent % 2 != 0
                           ? SvgPicture.asset(
                               AppIcons.choose,
                             )
@@ -265,7 +285,11 @@ class _CreatingPageState extends State<CreatingPage> {
             ),
             OtherButton(
               text: S.of(context).create,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  MainPage.routeName,
+                );
+              },
               color: AppColors.yellow,
             ),
             const Spacer(),

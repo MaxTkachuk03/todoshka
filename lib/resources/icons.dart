@@ -10,4 +10,6 @@ class AppIcons{
   static const String done = '$_path/done.svg';
   static const String personal = '$_path/personal.svg';
   static const String work = '$_path/work.svg';
+  static const String mark = '$_path/mark.svg';
+  static const String rectangle = '$_path/rectangle.svg';
 }
