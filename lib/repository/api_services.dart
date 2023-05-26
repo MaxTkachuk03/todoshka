@@ -6,7 +6,7 @@ class ApiServices {
   ApiServices();
 
   Future<void> getApi() async {
-    Response response = await dio.get('https://to-do.softwars.com.ua');
+    Response response = await dio.get('https://to-do.softwars.com.ua//tasks');
     print(response);
   }
 }
