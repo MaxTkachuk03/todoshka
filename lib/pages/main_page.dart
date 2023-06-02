@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/create_page.dart';
 import 'package:todoshka/pages/edit_page.dart';
-import 'package:todoshka/repository/api_services.dart';
+import 'package:todoshka/repository/services/api_services.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/widgets/buttons/appbar_buttons.dart';
 import 'package:todoshka/widgets/buttons/plus_buton.dart';

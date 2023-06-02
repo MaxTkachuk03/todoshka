@@ -7,12 +7,14 @@ import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/resources/icons.dart';
 import 'package:todoshka/resources/styles.dart';
 import 'package:todoshka/widgets/buttons/icon_button_wrapper.dart';
+import 'package:todoshka/widgets/buttons/icon_text_button.dart';
 import 'package:todoshka/widgets/buttons/other_button.dart';
 
 class CreatingPage extends StatefulWidget {
   const CreatingPage({super.key});
 
   static const String routeName = 'pages/create';
+ // List<Tasks> 
 
   @override
   State<CreatingPage> createState() => _CreatingPageState();
@@ -247,9 +249,15 @@ class _CreatingPageState extends State<CreatingPage> {
                 children: [
                   const Spacer(),
                   Stack(
-                    alignment: Alignment.center,
+                    alignment: urgent % 2 != 0
+                        ? Alignment.lerp(
+                                Alignment.centerLeft, Alignment.center, 0.18)
+                            as AlignmentGeometry
+                        : Alignment.lerp(
+                                Alignment.centerLeft, Alignment.center, 0.1)
+                            as AlignmentGeometry,
                     children: [
-                      IconButtonWrapper(
+                      IconTextButton(
                         onPressed: () {
                           setState(
                             () {
@@ -260,6 +268,10 @@ class _CreatingPageState extends State<CreatingPage> {
                         icon: SvgPicture.asset(
                           AppIcons.circle,
                         ),
+                        label: Text(
+                          S.of(context).urgent,
+                          style: AppStyles.simpleStyle,
+                        ),
                       ),
                       urgent % 2 != 0
                           ? SvgPicture.asset(
@@ -269,10 +281,6 @@ class _CreatingPageState extends State<CreatingPage> {
                               AppIcons.circle,
                             ),
                     ],
-                  ),
-                  Text(
-                    S.of(context).urgent,
-                    style: AppStyles.simpleStyle,
                   ),
                   const Spacer(
                     flex: 5,

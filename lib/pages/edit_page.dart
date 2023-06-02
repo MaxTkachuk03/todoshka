@@ -5,6 +5,7 @@ import 'package:todoshka/pages/main_page.dart';
 import 'package:todoshka/resources/icons.dart';
 import 'package:todoshka/resources/styles.dart';
 import 'package:todoshka/widgets/buttons/icon_button_wrapper.dart';
+import 'package:todoshka/widgets/buttons/icon_text_button.dart';
 import 'package:todoshka/widgets/buttons/other_button.dart';
 
 import '../generated/l10n.dart';
@@ -263,9 +264,15 @@ class _EditPageState extends State<EditPage> {
                 children: [
                   const Spacer(),
                   Stack(
-                    alignment: Alignment.center,
+                    alignment: urgent % 2 != 0
+                        ? Alignment.lerp(
+                                Alignment.centerLeft, Alignment.center, 0.18)
+                            as AlignmentGeometry
+                        : Alignment.lerp(
+                                Alignment.centerLeft, Alignment.center, 0.1)
+                            as AlignmentGeometry,
                     children: [
-                      IconButtonWrapper(
+                      IconTextButton(
                         onPressed: () {
                           setState(
                             () {
@@ -276,6 +283,10 @@ class _EditPageState extends State<EditPage> {
                         icon: SvgPicture.asset(
                           AppIcons.circle,
                         ),
+                        label: Text(
+                          S.of(context).urgent,
+                          style: AppStyles.simpleStyle,
+                        ),
                       ),
                       urgent % 2 != 0
                           ? SvgPicture.asset(
@@ -285,10 +296,6 @@ class _EditPageState extends State<EditPage> {
                               AppIcons.circle,
                             ),
                     ],
-                  ),
-                  Text(
-                    S.of(context).urgent,
-                    style: AppStyles.simpleStyle,
                   ),
                   const Spacer(
                     flex: 5,
