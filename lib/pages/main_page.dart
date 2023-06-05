@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
-import 'package:todoshka/pages/create_page.dart';
+import 'package:todoshka/models/tasks_model.dart';
+import 'package:todoshka/models/tasks_view.dart';
 import 'package:todoshka/pages/edit_page.dart';
 import 'package:todoshka/repository/services/api_services.dart';
 import 'package:todoshka/resources/colors.dart';
@@ -18,6 +19,16 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int counter = 1;
+  int type = 1;
+  int status = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    ApiServices().getTasks();
+  }
+
+  List<Tasks> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +98,34 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               ),
-              //ListView.builder(itemBuilder: (context, index) => Container()),
-              const Spacer(),
+              Expanded(
+                flex: 16,
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return TasksView(
+                      date: '',
+                      status: status,
+                      text: '',
+                      type: type,
+                      onPressed: () {
+                        while (true) {
+                          setState(() {
+                            if (status == 1) {
+                              status = 2;
+                            } else if (status == 2) {
+                              status = 1;
+                            }
+                          });
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+              const Spacer(
+                flex: 4,
+              ),
             ],
           ),
         ),

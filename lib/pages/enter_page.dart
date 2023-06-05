@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/pages/main_page.dart';
-import 'package:todoshka/repository/services/api_services.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/widgets/buttons/enter_button.dart';
 
@@ -30,7 +29,6 @@ class _EntrancePageState extends State<EntrancePage> {
               ),
               EnterButton(
                 onPressed: () {
-                  ApiServices().getTasks();
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     MainPage.routeName,

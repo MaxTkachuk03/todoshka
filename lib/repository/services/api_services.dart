@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:todoshka/repository/models/tasks_model.dart';
+import 'package:todoshka/models/tasks_model.dart';
 
 class ApiServices {
   final dio = Dio();
@@ -20,7 +20,7 @@ class ApiServices {
     // І приводимо це до моделі Tasks
     final tasksList = data.entries.map(
       (e) => Tasks(
-        taskId: (e.value as Map<String, dynamic>)["taskId"],
+        taskId: (e.value('taskId')),
         status: (e.value as Map<String, dynamic>)["status"],
         name: (e.value as Map<String, dynamic>)["name"],
         type: (e.value as Map<String, dynamic>)["type"],
