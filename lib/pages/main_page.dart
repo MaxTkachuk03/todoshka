@@ -22,13 +22,11 @@ class _MainPageState extends State<MainPage> {
   int type = 1;
   int status = 1;
 
+
   @override
   void initState() {
     super.initState();
-    ApiServices().getTasks();
   }
-
-  List<Tasks> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -100,25 +98,28 @@ class _MainPageState extends State<MainPage> {
               ),
               Expanded(
                 flex: 16,
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return TasksView(
-                      date: '',
-                      status: status,
-                      text: '',
-                      type: type,
-                      onPressed: () {
-                        while (true) {
+                child: FutureBuilder<List<Tasks>>(
+                  future: ApiServices().getTasks(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return TasksView(
+                        tasks: snapshot.data!,
+                        onRefresh: () {
                           setState(() {
-                            if (status == 1) {
-                              status = 2;
-                            } else if (status == 2) {
-                              status = 1;
-                            }
+                            ApiServices().getTasks();
                           });
-                        }
-                      },
+                          return Future.delayed(
+                            const Duration(seconds: 3),
+                           // () =>  
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   },
                 ),
@@ -133,3 +134,22 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+// class PhotosList extends StatelessWidget {
+//   const PhotosList({super.key, required this.photos});
+
+//   final List<Photo> photos;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GridView.builder(
+//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 2,
+//       ),
+//       itemCount: photos.length,
+//       itemBuilder: (context, index) {
+//         return Image.network(photos[index].thumbnailUrl);
+//       },
+//     );
+//   }
+// }

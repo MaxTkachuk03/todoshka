@@ -52,7 +52,7 @@ class AppBarButton extends StatelessWidget {
               color: AppColors.black,
               //fontSize: 18.0,
               fontFamily: AppFonts.fontFamily,
-              fontWeight: AppFonts.normal,
+             // fontWeight: AppFonts.normal,
             ),
           ),
         ),
