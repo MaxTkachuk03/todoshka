@@ -27,7 +27,7 @@ class _EntrancePageState extends State<EntrancePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(
-                flex: 2,
+                flex: 3,
               ),
               EnterButton(
                 onPressed: () {
@@ -55,7 +55,7 @@ class _EntrancePageState extends State<EntrancePage> {
                   //
                 },
               ),
-              const Spacer(),
+              const Spacer(flex: 2,),
             ],
           ),
         ),

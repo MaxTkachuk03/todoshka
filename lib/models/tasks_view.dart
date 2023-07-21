@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todoshka/models/tasks_model.dart';
-import 'package:todoshka/repository/services/api_services.dart';
+import 'package:todoshka/pages/edit_page.dart';
 import 'package:todoshka/resources/colors.dart';
 import 'package:todoshka/resources/icons.dart';
 import 'package:todoshka/widgets/buttons/icon_button_wrapper.dart';
@@ -12,29 +12,37 @@ class TasksView extends StatelessWidget {
   const TasksView({
     super.key,
     required this.tasks,
-    required this.onRefresh,
   });
 
   final List<Tasks> tasks;
-  final Future<void> Function() onRefresh;
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator.adaptive(
-      onRefresh: onRefresh,
-      child: ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          final listInfo = tasks[index];
-          return Column(
+    return ListView.builder(
+      itemCount: tasks.length,
+      itemBuilder: (context, index) {
+        final listInfo = tasks[index];
+        return GestureDetector(
+          onTap: () {
+        Navigator.of(context).pushNamed(
+          EditPage.routeName,
+          arguments: {
+            'name': listInfo.name,
+            'type': listInfo.type,
+            'urgent': listInfo.urgent,
+            'finishDate': listInfo.finishDate, 
+          },
+        );
+      },
+          child: Column(
             children: [
               const SizedBox(
                 height: 5.0,
               ),
               Container(
                 height: 65.0,
-                decoration: const BoxDecoration(
-                  color: AppColors.grey,
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: listInfo.urgent == 1 ? AppColors.red : AppColors.grey,
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(15.0),
                   ),
                 ),
@@ -106,9 +114,9 @@ class TasksView extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

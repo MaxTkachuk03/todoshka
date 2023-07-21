@@ -30,32 +30,6 @@ class Tasks {
 }
 
 
-
-//# Клас для нульового варінату витягування апі
-// class Tasks {
-//   Tasks({
-//     required this.taskId,
-//     required this.status,
-//     required this.name,
-//     required this.type,
-//     this.description,
-//     required this.urgent,
-//     this.file,
-//     required this.finishDate,
-//   });
-
-//   String taskId;
-//   int status;
-//   String name;
-//   int type;
-//   String? description;
-//   String? file;
-//   DateTime finishDate;
-//   int urgent;
-//   DateTime? syncTime;
-// }
-
-
 // class Tasks {
 //   Tasks({
 //     required this.taskId,
@@ -99,54 +73,4 @@ class Tasks {
 //       'finishDate': tasks.finishDate,
 //       'urgent': tasks.urgent,
 //   };
-// }
-
-
-// class Album {
-//   final int userId;
-//   final int id;
-//   final String title;
-
-//   const Album({
-//     required this.userId,
-//     required this.id,
-//     required this.title,
-//   });
-
-//   factory Album.fromJson(Map<String, dynamic> json) {
-//     return Album(
-//       userId: json['userId'],
-//       id: json['id'],
-//       title: json['title'],
-//     );
-//   }
-// }
-
-
-
-
-// class Photo {
-//   final int albumId;
-//   final int id;
-//   final String title;
-//   final String url;
-//   final String thumbnailUrl;
-
-//   const Photo({
-//     required this.albumId,
-//     required this.id,
-//     required this.title,
-//     required this.url,
-//     required this.thumbnailUrl,
-//   });
-
-//   factory Photo.fromJson(Map<String, dynamic> json) {
-//     return Photo(
-//       albumId: json['albumId'] as int,
-//       id: json['id'] as int,
-//       title: json['title'] as String,
-//       url: json['url'] as String,
-//       thumbnailUrl: json['thumbnailUrl'] as String,
-//     );
-//   }
 // }

@@ -12,9 +12,13 @@ import '../generated/l10n.dart';
 import '../resources/colors.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({super.key});
+  const EditPage({
+    super.key,
+    //   required this.nameTask,
+  });
 
   static const String routeName = 'pages/edit';
+//  final String nameTask;
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -22,9 +26,8 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   DateTime selectedDate = DateTime.now();
-  bool click = false;
-  int counter = 0;
-  int urgent = 0;
+  late int counter;
+  late int urgent;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -43,7 +46,15 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    urgent = arguments['urgent'];
+    counter = arguments['type'];
+    selectedDate = arguments['finishDate'];
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.gradient,
@@ -70,8 +81,9 @@ class _EditPageState extends State<EditPage> {
                   Flexible(
                     flex: 7,
                     child: TextField(
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
-                        hintText: S.of(context).nameTask,
+                        hintText: arguments['name'],
                         hintStyle: AppStyles.mainStyle,
                         border: InputBorder.none,
                       ),
@@ -170,10 +182,13 @@ class _EditPageState extends State<EditPage> {
                   const Spacer(),
                   Row(
                     children: [
-                      const Spacer(),
+                      const SizedBox(
+                        width: 34.0,
+                      ),
                       Expanded(
-                        flex: 5,
+                        flex: 14,
                         child: TextField(
+                          maxLines: 2,
                           decoration: InputDecoration(
                             hintText: S.of(context).addDescription,
                             hintStyle: AppStyles.simpleStyle,
@@ -182,9 +197,7 @@ class _EditPageState extends State<EditPage> {
                           keyboardType: TextInputType.text,
                         ),
                       ),
-                      const Spacer(
-                        flex: 4,
-                      ),
+                      const Spacer(),
                     ],
                   ),
                   const Spacer(
@@ -231,20 +244,11 @@ class _EditPageState extends State<EditPage> {
                       _selectDate(
                         context,
                       );
-                      setState(() {
-                        click = true;
-                      });
                     },
-                    child: click == true
-                        ? Text(
-                            "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
-                            //"${selectedDate.toLocal()}".split(' ')[0],
-                            style: AppStyles.simpleStyle,
-                          )
-                        : Text(
-                            S.of(context).endDate,
-                            style: AppStyles.simpleStyle,
-                          ),
+                    child: Text(
+                      "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
+                      style: AppStyles.simpleStyle,
+                    ),
                   ),
                   const Spacer(
                     flex: 3,

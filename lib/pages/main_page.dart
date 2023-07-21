@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
   int type = 1;
   int status = 1;
 
-
   @override
   void initState() {
     super.initState();
@@ -31,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
           right: 12.0,
@@ -102,17 +102,19 @@ class _MainPageState extends State<MainPage> {
                   future: ApiServices().getTasks(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return TasksView(
-                        tasks: snapshot.data!,
+                      return RefreshIndicator.adaptive(
                         onRefresh: () {
                           setState(() {
                             ApiServices().getTasks();
                           });
                           return Future.delayed(
                             const Duration(seconds: 3),
-                           // () =>  
+                            // () =>
                           );
                         },
+                        child: TasksView(
+                          tasks: snapshot.data!,
+                        ),
                       );
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');

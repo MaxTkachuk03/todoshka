@@ -8,6 +8,8 @@ class AppRouter {
   const AppRouter._();
 
   static MaterialPageRoute generateRoutes(RouteSettings settings) {
+   // final Object? arguments = settings.arguments;
+
     WidgetBuilder builder;
 
     switch (settings.name) {
