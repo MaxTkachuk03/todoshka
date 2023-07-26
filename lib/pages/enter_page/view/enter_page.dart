@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todoshka/pages/main_page.dart';
-import 'package:todoshka/repository/services/api_services.dart';
-import 'package:todoshka/repository/services/check_internet_services.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/widgets/buttons/enter_button.dart';
+import 'package:todoshka/pages/pages.dart';
+import 'package:todoshka/repository/repository.dart';
+import 'package:todoshka/resources/resources.dart';
+import 'package:todoshka/widgets/widgets.dart';
+
 
 class EntrancePage extends StatefulWidget {
   const EntrancePage({super.key});

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todoshka/generated/l10n.dart';
-import 'package:todoshka/models/tasks_model.dart';
-import 'package:todoshka/models/tasks_view.dart';
-import 'package:todoshka/pages/edit_page.dart';
-import 'package:todoshka/repository/services/api_services.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/widgets/buttons/appbar_buttons.dart';
-import 'package:todoshka/widgets/buttons/plus_buton.dart';
+import 'package:todoshka/models/models.dart';
+import 'package:todoshka/pages/pages.dart';
+import 'package:todoshka/repository/repository.dart';
+import 'package:todoshka/resources/resources.dart';
+import 'package:todoshka/widgets/widgets.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

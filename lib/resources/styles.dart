@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/resources/fonts.dart';
+import 'package:todoshka/resources/resources.dart';
+
 
 class AppStyles {
   const AppStyles._();

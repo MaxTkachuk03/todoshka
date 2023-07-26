@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/resources/fonts.dart';
+import 'package:todoshka/resources/resources.dart';
+
 
 class AppBarButton extends StatelessWidget {
   const AppBarButton({

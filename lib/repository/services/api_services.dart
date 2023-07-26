@@ -1,25 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:todoshka/models/tasks_model.dart';
+import 'package:todoshka/models/models.dart';
+
 
 class ApiServices {
-  final dio = Dio();
+  static const baseURL = 'https://to-do.softwars.com.ua/';
+  final dio = Dio(BaseOptions(
+    baseUrl: baseURL,
+  ));
   final dioPretty = PrettyDioLogger();
 
   Future<List<Tasks>> getTasks() async {
-  
     dio.interceptors.add(
       PrettyDioLogger(
-          requestHeader: true,
-          requestBody: false,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 90),
+        request: false,
+        responseBody: true,
+        compact: true,
+        maxWidth: 50,
+      ),
     );
 
-    final response = await dio.get('https://to-do.softwars.com.ua//tasks');
+    final response = await dio.get('/tasks');
     if (response.statusCode == 200) {
       return _fromJsonToList(
         response,
@@ -30,13 +31,13 @@ class ApiServices {
   }
 
   List<Tasks> _fromJsonToList(Response response) {
-    //! 
+    //!
     final List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(
       response.data['data'],
     );
-    //! 
-   // final List<Map<String, dynamic>> data = List.from(response.data['data']);
-     
+    //!
+    // final List<Map<String, dynamic>> data = List.from(response.data['data']);
+
     return data
         .map(
           (tasks) => Tasks.fromJson(tasks),

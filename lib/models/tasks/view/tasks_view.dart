@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:todoshka/models/tasks_model.dart';
-import 'package:todoshka/pages/edit_page.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/resources/icons.dart';
-import 'package:todoshka/widgets/buttons/icon_button_wrapper.dart';
+import 'package:todoshka/models/models.dart';
+import 'package:todoshka/pages/pages.dart';
+import 'package:todoshka/resources/resources.dart';
+import 'package:todoshka/widgets/widgets.dart';
 
-import '../resources/fonts.dart';
 
 class TasksView extends StatelessWidget {
   const TasksView({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todoshka/pages/create_page.dart';
-import 'package:todoshka/pages/edit_page.dart';
-import 'package:todoshka/pages/enter_page.dart';
+import 'package:todoshka/pages/create_page/view/create_page.dart';
+import 'package:todoshka/pages/edit_page/view/edit_page.dart';
+import 'package:todoshka/pages/enter_page/view/enter_page.dart';
 import 'package:todoshka/pages/main_page.dart';
 
 class AppRouter {

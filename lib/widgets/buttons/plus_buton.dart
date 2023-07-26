@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todoshka/generated/l10n.dart';
-import 'package:todoshka/resources/colors.dart';
-import 'package:todoshka/resources/icons.dart';
+import 'package:todoshka/resources/resources.dart';
 
 class PlusButton extends StatelessWidget {
   const PlusButton({
