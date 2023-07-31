@@ -4,8 +4,6 @@ import 'package:todoshka/models/models.dart';
 import 'package:todoshka/pages/pages.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
-import 'package:todoshka/widgets/widgets.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -22,14 +20,8 @@ class _MainPageState extends State<MainPage> {
   int status = 1;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
           right: 12.0,
@@ -37,16 +29,13 @@ class _MainPageState extends State<MainPage> {
         child: PlusButton(
           onPressed: () {
             Navigator.of(context).pushNamed(
-              EditPage.routeName,
-              //CreatingPage.routeName,
+              CreatingPage.routeName,
             );
           },
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.gradient,
-        ),
+        decoration: AppThemes.backgrounDecoration,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 18.0,
@@ -97,32 +86,33 @@ class _MainPageState extends State<MainPage> {
               ),
               Expanded(
                 flex: 16,
-                child: FutureBuilder<List<Tasks>>(
-                  future: ApiServices().getTasks(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return RefreshIndicator.adaptive(
-                        onRefresh: () {
-                          setState(() {
-                            ApiServices().getTasks();
-                          });
-                          return Future.delayed(
-                            const Duration(seconds: 3),
-                            // () =>
-                          );
-                        },
-                        child: TasksView(
-                          tasks: snapshot.data!,
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    //   final completer = Completer();
+                    setState(() {
+                      ApiServices().getTasks();
+                    });
+                    
+                    // return Future.delayed(
+                    //    const Duration(seconds: 3),
+                    // () =>
+                    //   );
                   },
+                  child: FutureBuilder<List<Tasks>>(
+                    future: ApiServices().getTasks(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return TasksView(
+                          tasks: snapshot.data!,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                 ),
               ),
               const Spacer(
@@ -135,22 +125,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
-// class PhotosList extends StatelessWidget {
-//   const PhotosList({super.key, required this.photos});
-
-//   final List<Photo> photos;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GridView.builder(
-//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 2,
-//       ),
-//       itemCount: photos.length,
-//       itemBuilder: (context, index) {
-//         return Image.network(photos[index].thumbnailUrl);
-//       },
-//     );
-//   }
-// }

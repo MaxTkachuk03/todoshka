@@ -4,8 +4,8 @@ import 'package:todoshka/pages/pages.dart';
 import 'package:todoshka/routes/router.dart';
 import 'generated/l10n.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ToDoApp extends StatelessWidget {
+  const ToDoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
