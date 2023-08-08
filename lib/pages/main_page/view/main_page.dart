@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/models/models.dart';
 import 'package:todoshka/pages/pages.dart';
-import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,27 +22,29 @@ class _MainPageState extends State<MainPage> {
   int type = 1;
   int status = 1;
 
+  final _tasksBloc = TasksBloc();
+
+  @override
+  void initState() {
+    _tasksBloc.add(GetTasksEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
-          right: 12.0,
-        ),
+        padding: const EdgeInsets.only(right: 12.0),
         child: PlusButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(
-              CreatingPage.routeName,
-            );
+            Navigator.of(context).pushNamed(CreatingPage.routeName);
           },
         ),
       ),
       body: Container(
         decoration: AppThemes.backgrounDecoration,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 18.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
             children: [
               const Spacer(),
@@ -88,36 +93,24 @@ class _MainPageState extends State<MainPage> {
                 flex: 16,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    //   final completer = Completer();
-                    setState(() {
-                      ApiServices().getTasks();
-                    });
-                    
-                    // return Future.delayed(
-                    //    const Duration(seconds: 3),
-                    // () =>
-                    //   );
+                    final completer = Completer();
+                    _tasksBloc.add(GetTasksEvent(completer: completer));
+                    return completer.future;
                   },
-                  child: FutureBuilder<List<Tasks>>(
-                    future: ApiServices().getTasks(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return TasksView(
-                          tasks: snapshot.data!,
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
+                  child: BlocBuilder<TasksBloc, TasksState>(
+                    bloc: _tasksBloc,
+                    builder: (context, state) {
+                      if (state is TasksLoadedState) {
+                        return TasksView(tasks: state.tasksList);
                       }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                     },
                   ),
                 ),
               ),
-              const Spacer(
-                flex: 4,
-              ),
+              const Spacer(flex: 4),
             ],
           ),
         ),

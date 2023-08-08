@@ -1,12 +1,41 @@
 part of 'tasks_bloc.dart';
 
 @immutable
-abstract class TasksState {}
+abstract class TasksState extends Equatable {}
 
-class TasksInitialState extends TasksState {}
+class TasksInitialState extends TasksState {
+  @override
+  List<Object?> get props => [];
+}
 
-class TasksLoadingState extends TasksState{}
+class TasksLoadingState extends TasksState {
+  @override
+  List<Object?> get props => [];
+}
 
-class TasksLoadedState extends TasksState{}
+class TasksLoadedState extends TasksState {
+  TasksLoadedState({
+    this.tasksList = const [],
+  });
 
-class TasksErrorLoadState extends TasksState{}
+  final List<Tasks> tasksList;
+
+  TasksLoadedState copyWith({
+    List<Tasks>? tasksList,
+  }) {
+    return TasksLoadedState(
+      tasksList: tasksList ?? this.tasksList,
+    );
+  }
+
+  @override
+  List<Object?> get props => [tasksList];
+}
+
+class TasksErrorLoadState extends TasksState {
+  final Object? exception;
+
+  TasksErrorLoadState({this.exception});
+  @override
+  List<Object?> get props => [exception];
+}

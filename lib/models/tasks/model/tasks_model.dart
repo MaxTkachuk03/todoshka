@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,8 +17,9 @@ class Tasks extends Equatable {
     required this.urgent,
     this.file,
     required this.finishDate,
+    this.syncTime,
   });
-  
+
   String taskId;
   int status;
   String name;
@@ -31,11 +33,10 @@ class Tasks extends Equatable {
   factory Tasks.fromJson(Map<String, dynamic> json) => _$TasksFromJson(json);
   Map<String, dynamic> toJson() => _$TasksToJson(this);
 
-@override
+  @override
   List<Object?> get props {
     return [
       taskId,
-      status,
       name,
       type,
       description,

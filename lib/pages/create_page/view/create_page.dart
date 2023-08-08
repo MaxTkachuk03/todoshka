@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/pages.dart';
 import 'package:todoshka/repository/repository.dart';
@@ -40,13 +39,9 @@ class _CreatingPageState extends State<CreatingPage> {
                 children: [
                   IconButtonWrapper(
                     onPressed: () {
-                      Navigator.of(context).popAndPushNamed(
-                        MainPage.routeName,
-                      );
+                      Navigator.of(context).popAndPushNamed(MainPage.routeName);
                     },
-                    icon: SvgPicture.asset(
-                      AppIcons.back,
-                    ),
+                    icon: SvgPicture.asset(AppIcons.back),
                   ),
                   Expanded(
                     child: TextField(
@@ -62,73 +57,47 @@ class _CreatingPageState extends State<CreatingPage> {
               ),
             ),
             ChooseType(
-              containerHeiht: containerHeiht,
-              counter: counter,
-              onPressed: () {
-                setState(
-                  () {
+                containerHeiht: containerHeiht,
+                counter: counter,
+                onPressed: () {
+                  setState(() {
                     counter = 1;
-                  },
-                );
-              },
-              onPressed2: () {
-                setState(
-                  () {
+                  });
+                },
+                onPressed2: () {
+                  setState(() {
                     counter = 2;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
-            const DescriptionTask(
-              containerHeight2: containerHeight2,
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
-            const AttachFile(
-              containerHeiht: containerHeiht,
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
+                  });
+                }),
+            const SizedBox(height: sizedBoxHeight),
+            const DescriptionTask(containerHeight2: containerHeight2),
+            const SizedBox(height: sizedBoxHeight),
+            const AttachFile(containerHeiht: containerHeiht),
+            const SizedBox(height: sizedBoxHeight),
             CreateFinishDate(
               click: click,
               containerHeiht: containerHeiht,
               onPressed: () {
                 setState(() {
                   click = true;
-                  selectDate(
-                    context,
-                  );
+                  selectDate(context);
                 });
               },
             ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
+            const SizedBox(height: sizedBoxHeight),
             UrgentTask(
-              containerHeiht: containerHeiht,
-              urgent: urgent,
-              onPressed: () {
-                setState(
-                  () {
+                containerHeiht: containerHeiht,
+                urgent: urgent,
+                onPressed: () {
+                  setState(() {
                     urgent++;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
+                  });
+                }),
+            const SizedBox(height: 20.0),
             OtherButton(
               text: S.of(context).create,
               onPressed: () {
-                Navigator.of(context).pushNamed(
-                  MainPage.routeName,
-                );
+                Navigator.of(context).pushNamed(MainPage.routeName);
               },
               color: AppColors.yellow,
             ),

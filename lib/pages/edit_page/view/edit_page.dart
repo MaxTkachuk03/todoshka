@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:todoshka/pages/pages.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
@@ -30,7 +29,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+        <String, dynamic>{}) as Map<String, dynamic>;
     urgent = arguments['urgent'];
     counter = arguments['type'];
     selectedDate = arguments['finishDate'];
@@ -47,103 +46,68 @@ class _EditPageState extends State<EditPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: IconButtonWrapper(
-                      onPressed: () {
-                        Navigator.of(context).popAndPushNamed(
-                          MainPage.routeName,
-                        );
-                      },
-                      icon: SvgPicture.asset(
-                        AppIcons.back,
-                      ),
-                    ),
-                  ),
+                      child: IconButtonWrapper(
+                    onPressed: () {
+                      Navigator.of(context).popAndPushNamed(MainPage.routeName);
+                    },
+                    icon: SvgPicture.asset(AppIcons.back),
+                  )),
                   Flexible(
-                    flex: 7,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        hintText: arguments['name'],
-                        hintStyle: AppStyles.mainStyle,
-                        border: InputBorder.none,
-                      ),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
+                      flex: 7,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: arguments['name'],
+                          hintStyle: AppStyles.mainStyle,
+                          border: InputBorder.none,
+                        ),
+                        keyboardType: TextInputType.text,
+                      )),
                   Expanded(
                     child: IconButtonWrapper(
                       onPressed: () {
-                        Navigator.of(context).popAndPushNamed(
-                          MainPage.routeName,
-                        );
+                        Navigator.of(context)
+                            .popAndPushNamed(MainPage.routeName);
                       },
-                      icon: SvgPicture.asset(
-                        AppIcons.done,
-                      ),
+                      icon: SvgPicture.asset(AppIcons.done),
                     ),
                   ),
                 ],
               ),
             ),
             ChooseType(
-              containerHeiht: containerHeiht,
-              counter: counter,
-              onPressed: () {
-                setState(
-                  () {
+                containerHeiht: containerHeiht,
+                counter: counter,
+                onPressed: () {
+                  setState(() {
                     counter = 1;
-                  },
-                );
-              },
-              onPressed2: () {
-                setState(
-                  () {
+                  });
+                },
+                onPressed2: () {
+                  setState(() {
                     counter = 2;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
-            const DescriptionTask(
-              containerHeight2: containerHeight2,
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
-            const AttachFile(
-              containerHeiht: containerHeiht,
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
-            const EditFinishDate(
-              containerHeiht: containerHeiht,
-            ),
-            const SizedBox(
-              height: sizedBoxHeight,
-            ),
+                  });
+                }),
+            const SizedBox(height: sizedBoxHeight),
+            const DescriptionTask(containerHeight2: containerHeight2),
+            const SizedBox(height: sizedBoxHeight),
+            const AttachFile(containerHeiht: containerHeiht),
+            const SizedBox(height: sizedBoxHeight),
+            const EditFinishDate(containerHeiht: containerHeiht),
+            const SizedBox(height: sizedBoxHeight),
             UrgentTask(
-              containerHeiht: containerHeiht,
-              urgent: urgent,
-              onPressed: () {
-                setState(
-                  () {
+                containerHeiht: containerHeiht,
+                urgent: urgent,
+                onPressed: () {
+                  setState(() {
                     urgent++;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
+                  });
+                }),
+            const SizedBox(height: 20.0),
             OtherButton(
               text: S.of(context).delete,
               onPressed: () {
-                Navigator.of(context).pushNamed(
-                  MainPage.routeName,
-                );
+                Navigator.of(context).pushNamed(MainPage.routeName);
               },
               color: AppColors.red,
             ),
