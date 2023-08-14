@@ -26,6 +26,27 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         }
       },
     );
+
+    on<CreateTasksEvent>((event, emit) async {
+      try {
+        emit(TasksCreatedState().copyWith(status: CreatinStatus.creating));
+        await tasksRepository.createTask(
+          taskId: event.taskId,
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+          syncTime: event.syncTime,
+        );
+        emit(TasksCreatedState().copyWith(status: CreatinStatus.created));
+      } on Exception catch (e) {
+        emit(TasksCreatedState().copyWith(status: CreatinStatus.error));
+        emit(TasksErrorLoadState(exception: e));
+      }
+    });
   }
   final tasksRepository = ApiServices();
 }

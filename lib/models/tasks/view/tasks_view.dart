@@ -20,8 +20,12 @@ class TasksView extends StatelessWidget {
         final listInfo = tasks[index];
         return GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(EditPage.routeName, arguments: listInfo);
+            Navigator.of(context).pushNamed(EditPage.routeName, arguments: {
+              'name': listInfo.name,
+              'type': listInfo.type,
+              'urgent': listInfo.urgent,
+              'finishDate': listInfo.finishDate,
+            });
           },
           child: Column(
             children: [

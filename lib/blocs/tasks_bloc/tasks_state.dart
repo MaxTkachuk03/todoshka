@@ -1,4 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tasks_bloc.dart';
+
+enum CreatinStatus { initial, creating, created, error }
 
 @immutable
 abstract class TasksState extends Equatable {}
@@ -38,4 +41,23 @@ class TasksErrorLoadState extends TasksState {
   TasksErrorLoadState({this.exception});
   @override
   List<Object?> get props => [exception];
+}
+
+class TasksCreatedState extends TasksState {
+  TasksCreatedState({
+    this.status = CreatinStatus.initial,
+  });
+
+  final CreatinStatus status;
+
+  @override
+  List<Object?> get props => [status];
+
+  TasksCreatedState copyWith({
+    CreatinStatus? status,
+  }) {
+    return TasksCreatedState(
+      status: status ?? this.status,
+    );
+  }
 }

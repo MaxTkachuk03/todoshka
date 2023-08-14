@@ -29,7 +29,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map<String, dynamic>;
+        <String, dynamic>{}) as Map;
     urgent = arguments['urgent'];
     counter = arguments['type'];
     selectedDate = arguments['finishDate'];
@@ -56,6 +56,7 @@ class _EditPageState extends State<EditPage> {
                       flex: 7,
                       child: TextField(
                         textAlign: TextAlign.center,
+                        style: AppStyles.mainStyle,
                         decoration: InputDecoration(
                           hintText: arguments['name'],
                           hintStyle: AppStyles.mainStyle,

@@ -6,6 +6,7 @@ Future<void> selectDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
+      currentDate: selectedDate,
       firstDate: DateTime(2015, 1),
       lastDate: DateTime(2050));
 
