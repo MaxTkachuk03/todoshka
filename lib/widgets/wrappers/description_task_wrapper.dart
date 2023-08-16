@@ -7,10 +7,13 @@ class DescriptionTask extends StatelessWidget {
   const DescriptionTask({
     super.key,
     required this.containerHeight2,
+    this.controller,
+    this.defaultDescription,
   });
 
   final double containerHeight2;
-
+  final TextEditingController? controller;
+  final String? defaultDescription;
   @override
   Widget build(BuildContext context) {
     return EditAndCreatePageContainer(
@@ -27,8 +30,10 @@ class DescriptionTask extends StatelessWidget {
                 flex: 14,
                 child: TextField(
                   maxLines: 2,
+                  controller: controller,
+                  style: AppStyles.simpleStyle,
                   decoration: InputDecoration(
-                    hintText: S.of(context).addDescription,
+                    hintText: defaultDescription,
                     hintStyle: AppStyles.simpleStyle,
                     border: InputBorder.none,
                   ),

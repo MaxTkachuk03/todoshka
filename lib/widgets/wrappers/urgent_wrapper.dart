@@ -25,7 +25,7 @@ class UrgentTask extends StatelessWidget {
         children: [
           const Spacer(),
           Stack(
-            alignment: urgent % 2 != 0
+            alignment: urgent == 1
                 ? Alignment.lerp(Alignment.centerLeft, Alignment.center, 0.18)
                     as AlignmentGeometry
                 : Alignment.lerp(Alignment.centerLeft, Alignment.center, 0.1)
@@ -41,7 +41,7 @@ class UrgentTask extends StatelessWidget {
                   style: AppStyles.simpleStyle,
                 ),
               ),
-              urgent % 2 != 0
+              urgent == 1
                   ? SvgPicture.asset(
                       AppIcons.choose,
                     )
@@ -50,9 +50,7 @@ class UrgentTask extends StatelessWidget {
                     ),
             ],
           ),
-          const Spacer(
-            flex: 5,
-          ),
+          const Spacer(flex: 5),
         ],
       ),
     );

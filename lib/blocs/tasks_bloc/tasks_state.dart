@@ -1,7 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tasks_bloc.dart';
 
-enum CreatinStatus { initial, creating, created, error }
+enum CreatingAndUpdatingStatus {
+  initial,
+  creating,
+  created,
+  updating,
+  updated,
+  error
+}
 
 @immutable
 abstract class TasksState extends Equatable {}
@@ -43,21 +50,77 @@ class TasksErrorLoadState extends TasksState {
   List<Object?> get props => [exception];
 }
 
-class TasksCreatedState extends TasksState {
-  TasksCreatedState({
-    this.status = CreatinStatus.initial,
+class TasksCreateAndUpdateState extends TasksState {
+  TasksCreateAndUpdateState({
+    this.statuss = CreatingAndUpdatingStatus.initial,
+    this.status = 0,
+    this.taskId = '',
+    this.name = '',
+    this.type = 0,
+    this.description,
+    this.file,
+    this.finishDate,
+    this.urgent = 0,
+    this.syncTime,
   });
 
-  final CreatinStatus status;
+  final CreatingAndUpdatingStatus statuss;
+  final String taskId;
+  final int status;
+  final String name;
+  final int type;
+  final String? description;
+  final String? file;
+  final DateTime? finishDate;
+  final int urgent;
+  final DateTime? syncTime;
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [
+        statuss,
+      ];
 
-  TasksCreatedState copyWith({
-    CreatinStatus? status,
+  TasksCreateAndUpdateState copyWith({
+    CreatingAndUpdatingStatus? statuss,
+    String? taskId,
+    int? status,
+    String? name,
+    int? type,
+    String? description,
+    String? file,
+    DateTime? finishDate,
+    int? urgent,
+    DateTime? syncTime,
   }) {
-    return TasksCreatedState(
+    return TasksCreateAndUpdateState(
+      statuss: statuss ?? this.statuss,
+      taskId: taskId ?? this.taskId,
       status: status ?? this.status,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      file: file ?? this.file,
+      finishDate: finishDate ?? this.finishDate,
+      urgent: urgent ?? this.urgent,
+      syncTime: syncTime ?? this.syncTime,
+    );
+  }
+}
+
+class TasksDeleteState extends TasksState {
+  TasksDeleteState({
+    this.taskId = '',
+  });
+  final String taskId;
+
+  @override
+  List<Object?> get props => [taskId];
+
+  TasksDeleteState copyWith({
+    String? taskId,
+  }) {
+    return TasksDeleteState(
+      taskId: taskId ?? this.taskId,
     );
   }
 }

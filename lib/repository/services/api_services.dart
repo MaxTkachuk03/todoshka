@@ -1,26 +1,24 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:todoshka/models/models.dart';
 
 class ApiServices {
-  static const baseURL = 'https://to-do.softwars.com.ua/';
-  final dio = Dio(BaseOptions(baseUrl: baseURL));
-  final dioPretty = PrettyDioLogger();
+  static const _baseURL = 'https://to-do.softwars.com.ua/';
+  final _dio = Dio(BaseOptions(baseUrl: _baseURL));
 
   Future<List<Tasks>> getTasks() async {
-    dio.interceptors.add(
+    _dio.interceptors.add(
       PrettyDioLogger(
         request: false,
         responseBody: true,
         compact: true,
-        maxWidth: 50,
+        maxWidth: 90,
       ),
     );
 
-    final response = await dio.get('/tasks');
+    final response = await _dio.get('/tasks');
     if (response.statusCode == 200) {
       return _fromJsonToList(response).toList();
     } else {
@@ -50,7 +48,7 @@ class ApiServices {
     int? urgent,
     DateTime? syncTime,
   }) async {
-    final response = await dio.post(
+    final response = await _dio.post(
       '/tasks',
       data: [
         {
@@ -60,7 +58,42 @@ class ApiServices {
           'type': type,
           'description': description,
           'file': file,
-          'finishDate': finishDate?.toIso8601String().toString(),
+          'finishDate': finishDate?.toIso8601String(),
+          'urgent': urgent,
+          'syncTime': DateTime.now().toIso8601String(),
+        }
+      ],
+    );
+    if (response.statusCode == 201) {
+      print('posted');
+      return Tasks.fromJson(jsonDecode(response.data));
+    } else {
+      throw Exception('Failed to load ');
+    }
+  }
+
+  Future<Tasks> updateTask({
+    String? taskId,
+    int? status,
+    String? name,
+    int? type,
+    String? description,
+    String? file,
+    DateTime? finishDate,
+    int? urgent,
+    DateTime? syncTime,
+  }) async {
+    final response = await _dio.put(
+      '/tasks//$taskId',
+      data: [
+        {
+          'taskId': taskId,
+          'status': status,
+          'name': name,
+          'type': type,
+          'description': description,
+          'file': file,
+          'finishDate': finishDate?.toIso8601String(),
           'urgent': urgent,
           'syncTime': DateTime.now().toIso8601String(),
         }
@@ -70,6 +103,17 @@ class ApiServices {
       return Tasks.fromJson(jsonDecode(response.data));
     } else {
       throw Exception('Failed to load ');
+    }
+  }
+
+  Future<void> deleteTask({
+    String? taskId,
+  }) async {
+    try {
+      await _dio.delete('/tasks//$taskId');
+      print('User deleted!');
+    } catch (e) {
+      print('Error deleting user: $e');
     }
   }
 }

@@ -8,9 +8,11 @@ class EditFinishDate extends StatelessWidget {
   const EditFinishDate({
     super.key,
     required this.containerHeiht,
+    required this.onPressed,
   });
 
   final double containerHeiht;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,7 @@ class EditFinishDate extends StatelessWidget {
         children: [
           const Spacer(),
           TextButton(
-            onPressed: () {
-                selectDate(
-                  context,
-                );
-              },
+            onPressed: onPressed,
             child: Text(
               "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
               style: AppStyles.simpleStyle,

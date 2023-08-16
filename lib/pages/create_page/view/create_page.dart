@@ -19,6 +19,7 @@ class CreatingPage extends StatefulWidget {
 
 class _CreatingPageState extends State<CreatingPage> {
   final name = TextEditingController();
+  final description = TextEditingController();
   bool click = false;
   int counter = 0;
   int urgent = 0;
@@ -78,7 +79,8 @@ class _CreatingPageState extends State<CreatingPage> {
                     });
                   }),
               const SizedBox(height: sizedBoxHeight),
-              const DescriptionTask(containerHeight2: containerHeight2),
+              DescriptionTask(
+                  containerHeight2: containerHeight2, controller: description),
               const SizedBox(height: sizedBoxHeight),
               const AttachFile(containerHeiht: containerHeiht),
               const SizedBox(height: sizedBoxHeight),
@@ -109,15 +111,16 @@ class _CreatingPageState extends State<CreatingPage> {
               OtherButton(
                 text: S.of(context).create,
                 onPressed: () {
-                  Navigator.of(context).pushNamed(MainPage.routeName);
                   context.read<TasksBloc>().add(CreateTasksEvent(
                         taskId: name.text,
                         status: 1,
                         name: name.text,
                         type: counter,
+                        description: description.text,
                         urgent: urgent,
                         finishDate: selectedDate,
                       ));
+                  Navigator.of(context).pushNamed(MainPage.routeName);
                 },
                 color: AppColors.yellow,
               ),

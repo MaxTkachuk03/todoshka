@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
@@ -30,7 +28,6 @@ class CreateFinishDate extends StatelessWidget {
             onPressed: onPressed,
             child: click == true
                 ? Text(
-                 //   "${selectDate(context)}",
                     "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
                     style: AppStyles.simpleStyle,
                   )

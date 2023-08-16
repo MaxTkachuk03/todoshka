@@ -29,7 +29,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<CreateTasksEvent>((event, emit) async {
       try {
-        emit(TasksCreatedState().copyWith(status: CreatinStatus.creating));
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.creating));
         await tasksRepository.createTask(
           taskId: event.taskId,
           name: event.name,
@@ -39,14 +40,68 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
           file: event.file,
           finishDate: event.finishDate,
           urgent: event.urgent,
-          syncTime: event.syncTime,
         );
-        emit(TasksCreatedState().copyWith(status: CreatinStatus.created));
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.created));
+        emit(TasksCreateAndUpdateState().copyWith(
+          taskId: event.taskId,
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+        ));
       } on Exception catch (e) {
-        emit(TasksCreatedState().copyWith(status: CreatinStatus.error));
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.error));
+        emit(TasksErrorLoadState(exception: e));
+      }
+    });
+
+    on<DeleteTasksEvent>((event, emit) async {
+      try {
+        await tasksRepository.deleteTask(
+          taskId: event.taskId,
+        );
+        emit(TasksDeleteState().copyWith(taskId: event.taskId));
+      } catch (e) {
+        emit(TasksErrorLoadState(exception: e));
+      }
+    });
+
+    on<UpdateTasksEvent>((event, emit) async {
+      try {
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.updating));
+        TasksCreateAndUpdateState().copyWith(
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+        );
+        await tasksRepository.updateTask(
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+        );
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.updated));
+      } on Exception catch (e) {
+        emit(TasksCreateAndUpdateState()
+            .copyWith(statuss: CreatingAndUpdatingStatus.error));
         emit(TasksErrorLoadState(exception: e));
       }
     });
   }
+
   final tasksRepository = ApiServices();
 }

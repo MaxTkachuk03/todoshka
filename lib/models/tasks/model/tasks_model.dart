@@ -1,5 +1,4 @@
-// ignore_for_file: must_be_immutable
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,20 +13,20 @@ class Tasks extends Equatable {
     required this.name,
     required this.type,
     this.description,
-    required this.urgent,
     this.file,
     required this.finishDate,
+    required this.urgent,
     this.syncTime,
   });
 
-  String taskId;
-  int status;
-  String name;
-  int type;
-  String? description;
-  String? file;
-  DateTime finishDate;
-  int urgent;
+  final String taskId;
+  int? status;
+  final String name;
+  final int type;
+  final String? description;
+  final String? file;
+  final DateTime? finishDate;
+  final int urgent;
   DateTime? syncTime;
 
   factory Tasks.fromJson(Map<String, dynamic> json) => _$TasksFromJson(json);
@@ -46,11 +45,35 @@ class Tasks extends Equatable {
       syncTime,
     ];
   }
+
+  Tasks copyWith({
+    String? taskId,
+    int? status,
+    String? name,
+    int? type,
+    String? description,
+    String? file,
+    DateTime? finishDate,
+    int? urgent,
+    DateTime? syncTime,
+  }) {
+    return Tasks(
+      taskId: taskId ?? this.taskId,
+      status: status ?? this.status,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      file: file ?? this.file,
+      finishDate: finishDate ?? this.finishDate,
+      urgent: urgent ?? this.urgent,
+      syncTime: syncTime ?? this.syncTime,
+    );
+  }
 }
 
 //! Прописано вручну
 // class Tasks {
-//   Tasks({
+//   const Tasks({
 //     required this.taskId,
 //     required this.status,
 //     required this.name,
@@ -62,13 +85,25 @@ class Tasks extends Equatable {
 //     required this.finishDate, 
 //   });
 
+//    const  Tasks.initial({
+//     this.taskId = '',
+//     this.status = 0,
+//     this.name = '',
+//     this.type = 0,
+//     this.description ='',
+//     this.urgent=0,
+//     this.file ='',
+//     this.finishDate,
+//     this.syncTime,
+//   });
+
 //   final String taskId;
 //   final int status;
 //   final String name;
 //   final int type;
 //   final String? description;
 //   final String? file;
-//   final DateTime finishDate;
+//   final DateTime? finishDate;
 //   final int urgent; 
 //   final DateTime? syncTime;
 
@@ -92,4 +127,28 @@ class Tasks extends Equatable {
 //       'finishDate': tasks.finishDate,
 //       'urgent': tasks.urgent,
 //   };
+
+//   Tasks copyWith({
+//     String? taskId,
+//     int? status,
+//     String? name,
+//     int? type,
+//     String? description,
+//     String? file,
+//     DateTime? finishDate,
+//     int? urgent,
+//     DateTime? syncTime,
+//   }) {
+//     return Tasks(
+//       taskId: taskId ?? this.taskId,
+//       status: status ?? this.status,
+//       name: name ?? this.name,
+//       type: type ?? this.type,
+//       description: description ?? this.description,
+//       file: file ?? this.file,
+//       finishDate: finishDate ?? this.finishDate,
+//       urgent: urgent ?? this.urgent,
+//       syncTime: syncTime ?? this.syncTime,
+//     );
+//   }
 // }
