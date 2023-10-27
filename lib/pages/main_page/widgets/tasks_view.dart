@@ -59,6 +59,7 @@ class TasksView extends StatelessWidget {
                         : SvgPicture.asset(AppIcons.taskDone),
                     onPressed: () {
                       if (tasks.status == 1) {
+                        print("status: ${tasks.status}");
                         context.read<TaskListBloc>().add(
                             ChangeStatusEvent(taskId: tasks.taskId, status: 2));
                       } if(tasks.status == 2) {
