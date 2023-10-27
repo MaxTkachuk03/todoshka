@@ -83,7 +83,6 @@ class _EditPageState extends State<EditPage> {
                                   type: type,
                                   urgent: urgent,
                                 ));
-
                             AutoRouter.of(context).push(const MainRoute());
                           },
                           icon: SvgPicture.asset(AppIcons.done),
@@ -116,6 +115,7 @@ class _EditPageState extends State<EditPage> {
                 const AttachFile(containerHeiht: containerHeiht),
                 const SizedBox(height: sizedBoxHeight),
                 CreateFinishDate(
+                  date: widget.tasks.finishDate!,
                   containerHeiht: containerHeiht,
                   onPressed: () async {
                     await selectDate(context);

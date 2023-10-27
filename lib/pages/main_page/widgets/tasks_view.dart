@@ -58,14 +58,14 @@ class TasksView extends StatelessWidget {
                         ? SvgPicture.asset(AppIcons.taskStatus)
                         : SvgPicture.asset(AppIcons.taskDone),
                     onPressed: () {
-                      // if (tasks.status == 1) {
-                      //   print("status: ${tasks.status}");
-                      //   context.read<TasksBloc>().add(
-                      //       ChangeStatusEvent(taskId: tasks.taskId, status: 2));
-                      // } if(tasks.status == 2) {
-                      //   context.read<TasksBloc>().add(
-                      //       ChangeStatusEvent(taskId: tasks.taskId, status: 1));
-                      // }
+                      if (tasks.status == 1) {
+                        print("status: ${tasks.status}");
+                        context.read<TasksBloc>().add(
+                            ChangeStatusEvent(taskId: tasks.taskId, status: 2));
+                      } if(tasks.status == 2) {
+                        context.read<TasksBloc>().add(
+                            ChangeStatusEvent(taskId: tasks.taskId, status: 1));
+                      }
                     },
 
                   ),

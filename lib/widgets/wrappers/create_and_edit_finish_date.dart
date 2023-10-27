@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoshka/generated/l10n.dart';
+import 'package:todoshka/models/models.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/widgets/widgets.dart';
@@ -10,12 +11,13 @@ class CreateFinishDate extends StatelessWidget {
     super.key,
     required this.containerHeiht,
     required this.click,
-    required this.onPressed,
+    required this.onPressed, required this.date,
   });
 
   final double containerHeiht;
   final bool click;
   final void Function() onPressed;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class CreateFinishDate extends StatelessWidget {
             onPressed: onPressed,
             child: click == true
                 ? Text(
-                    "${selectedDate.day} ${DateFormat.LLLL().format(selectedDate)} ${selectedDate.year}",
+                    DateFormat.yMMMMd().format(date),
                     style: AppStyles.simpleStyle,
                   )
                 : Text(

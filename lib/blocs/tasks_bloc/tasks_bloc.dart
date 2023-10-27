@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,21 +21,30 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<CreateTasksEvent>((event, emit) async {
       try {
-        // await tasksRepository.createTask(
-        // );
-        // final tasks = TasksCreateAndUpdateState()
-        // emit(TasksCreateAndUpdateState().copyWith(
-        //   taskId: event.taskId,
-        //   name: event.name,
-        //   status: event.status,
-        //   type: event.type,
-        //   description: event.description,
-        //   file: event.file,
-        //   finishDate: event.finishDate,
-        //   urgent: event.urgent,
-        // ));
+        final tasks = Tasks(
+          taskId: event.taskId,
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+        );
+
+        await tasksRepository.createTask(tasks: tasks);
+        emit(TasksState(
+          taskId: event.taskId,
+          name: event.name,
+          status: event.status,
+          type: event.type,
+          description: event.description,
+          file: event.file,
+          finishDate: event.finishDate,
+          urgent: event.urgent,
+        ));
       } on Exception catch (e) {
-         Exception(e);
+        Exception(e);
       }
     });
 
@@ -48,31 +55,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         );
         emit(TasksState(taskId: event.taskId));
       } catch (e) {
-        Exception(e);
-      }
-    });
-
-    on<UpdateTasksEvent>((event, emit) async {
-      try {
-        // TasksCreateAndUpdateState().copyWith(
-        //   name: event.name,
-        //   status: event.status,
-        //   type: event.type,
-        //   description: event.description,
-        //   file: event.file,
-        //   finishDate: event.finishDate,
-        //   urgent: event.urgent,
-        // );
-        // await tasksRepository.updateTask(
-        //   name: event.name,
-        //   status: event.status,
-        //   type: event.type,
-        //   description: event.description,
-        //   file: event.file,
-        //   finishDate: event.finishDate,
-        //   urgent: event.urgent,
-        // );
-      } on Exception catch (e) {
         Exception(e);
       }
     });

@@ -64,32 +64,6 @@ class ApiServices {
     }
   }
 
-  Future<Tasks> updateTask({
-    required Tasks tasks,
-  }) async {
-    final response = await _dio.put(
-      '/tasks/${tasks.taskId}',
-      data: [
-        {
-          'taskId': tasks.taskId,
-          'status': tasks.status,
-          'name': tasks.name,
-          'type': tasks.type,
-          'description': tasks.description,
-          'file': tasks.file,
-          'finishDate': tasks.finishDate?.toIso8601String(),
-          'urgent': tasks.urgent,
-          'syncTime': DateTime.now().toIso8601String(),
-        }
-      ],
-    );
-    if (response.statusCode == 201) {
-      return Tasks.fromJson(jsonDecode(response.data));
-    } else {
-      throw Exception('Failed to load ');
-    }
-  }
-
   Future<void> updateTaskStatus({
     required String taskId,
     required int status,

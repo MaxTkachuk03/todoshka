@@ -93,6 +93,7 @@ class _CreatingPageState extends State<CreatingPage> {
                     click = true;
                   });
                 },
+                date: selectedDate,
               ),
               const SizedBox(height: sizedBoxHeight),
               UrgentTask(

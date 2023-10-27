@@ -23,9 +23,9 @@ class _ToDoAppState extends State<ToDoApp> {
         BlocProvider(
           create: (context) => TaskListBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) => TasksBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => TasksBloc(),
+        ),
       ],
       child: MaterialApp.router(
         localizationsDelegates: const [
