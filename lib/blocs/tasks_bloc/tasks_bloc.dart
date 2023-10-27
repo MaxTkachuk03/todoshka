@@ -10,19 +10,17 @@ part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  TasksBloc() : super(TasksInitialState()) {
-
-      on<ChangeStatusEvent>((event, emit) async {
+  TasksBloc() : super(const TasksState()) {
+    on<ChangeStatusEvent>((event, emit) async {
       try {
-        if (state is TasksInitialState) {
-          await tasksRepository.updateTaskStatus(
-              taskId: event.taskId, status: event.status);
-         // emit(TasksCreateAndUpdateState());
-        }
+        await tasksRepository.updateTaskStatus(
+            taskId: event.taskId, status: event.status);
+        emit(TasksState(taskId: event.taskId, status: event.status));
       } catch (e) {
-        emit(TasksErrorLoadState(exception: e));
+        Exception(e);
       }
     });
+
     on<CreateTasksEvent>((event, emit) async {
       try {
         // await tasksRepository.createTask(
@@ -39,7 +37,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         //   urgent: event.urgent,
         // ));
       } on Exception catch (e) {
-        emit(TasksErrorLoadState(exception: e));
+         Exception(e);
       }
     });
 
@@ -48,9 +46,9 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         await tasksRepository.deleteTask(
           taskId: event.taskId,
         );
-        emit(TasksDeleteState().copyWith(taskId: event.taskId));
+        emit(TasksState(taskId: event.taskId));
       } catch (e) {
-        emit(TasksErrorLoadState(exception: e));
+        Exception(e);
       }
     });
 
@@ -75,7 +73,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         //   urgent: event.urgent,
         // );
       } on Exception catch (e) {
-        emit(TasksErrorLoadState(exception: e));
+        Exception(e);
       }
     });
   }

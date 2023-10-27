@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
+import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/models/models.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/router/router.dart';
@@ -18,7 +18,7 @@ class TasksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskListBloc, TaskListBlocState>(
+    return BlocBuilder<TasksBloc, TasksState>(
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
@@ -58,14 +58,14 @@ class TasksView extends StatelessWidget {
                         ? SvgPicture.asset(AppIcons.taskStatus)
                         : SvgPicture.asset(AppIcons.taskDone),
                     onPressed: () {
-                      if (tasks.status == 1) {
-                        print("status: ${tasks.status}");
-                        context.read<TaskListBloc>().add(
-                            ChangeStatusEvent(taskId: tasks.taskId, status: 2));
-                      } if(tasks.status == 2) {
-                        context.read<TaskListBloc>().add(
-                            ChangeStatusEvent(taskId: tasks.taskId, status: 1));
-                      }
+                      // if (tasks.status == 1) {
+                      //   print("status: ${tasks.status}");
+                      //   context.read<TasksBloc>().add(
+                      //       ChangeStatusEvent(taskId: tasks.taskId, status: 2));
+                      // } if(tasks.status == 2) {
+                      //   context.read<TasksBloc>().add(
+                      //       ChangeStatusEvent(taskId: tasks.taskId, status: 1));
+                      // }
                     },
 
                   ),
