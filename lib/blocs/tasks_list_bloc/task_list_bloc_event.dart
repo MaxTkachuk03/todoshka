@@ -14,15 +14,3 @@ class GetTasksListEvent extends TaskListBlocEvent {
   List<Object?> get props => [completer];
 }
 
-class ChangeStatusEvent extends TaskListBlocEvent {
-  ChangeStatusEvent({
-    this.status = 0,
-    this.taskId = '',
-  });
-
-  final int status;
-  final String taskId;
-
-  @override
-  List<Object?> get props => [status];
-}

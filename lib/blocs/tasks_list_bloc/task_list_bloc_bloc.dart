@@ -21,18 +21,5 @@ class TaskListBloc extends Bloc<TaskListBlocEvent, TaskListBlocState> {
         event.completer?.complete();
       }
     });
-
-    on<ChangeStatusEvent>((event, emit) async {
-      try {
-        if (state is TasksListLoadedState) {
-          await tasksRepository.updateTaskStatus(
-              taskId: event.taskId, status: event.status);
-          final getTasks = await tasksRepository.getTasks();
-          emit(TasksListLoadedState(tasksList: getTasks));
-        }
-      } catch (e) {
-        emit(TasksListErrorLoadState(exception: e));
-      }
-    });
   }
 }

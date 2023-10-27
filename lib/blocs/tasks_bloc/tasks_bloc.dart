@@ -11,6 +11,18 @@ part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   TasksBloc() : super(TasksInitialState()) {
+
+      on<ChangeStatusEvent>((event, emit) async {
+      try {
+        if (state is TasksInitialState) {
+          await tasksRepository.updateTaskStatus(
+              taskId: event.taskId, status: event.status);
+         // emit(TasksCreateAndUpdateState());
+        }
+      } catch (e) {
+        emit(TasksErrorLoadState(exception: e));
+      }
+    });
     on<CreateTasksEvent>((event, emit) async {
       try {
         // await tasksRepository.createTask(

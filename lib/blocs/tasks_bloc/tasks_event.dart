@@ -3,6 +3,19 @@ part of 'tasks_bloc.dart';
 @immutable
 abstract class TasksEvent extends Equatable {}
 
+class ChangeStatusEvent extends TasksEvent {
+  ChangeStatusEvent({
+    this.status = 0,
+    this.taskId = '',
+  });
+
+  final int status;
+  final String taskId;
+
+  @override
+  List<Object?> get props => [status];
+}
+
 class DeleteTasksEvent extends TasksEvent {
   DeleteTasksEvent({
     this.taskId = '',
@@ -12,7 +25,6 @@ class DeleteTasksEvent extends TasksEvent {
   @override
   List<Object?> get props => [taskId];
 }
-
 
 class CreateTasksEvent extends TasksEvent {
   CreateTasksEvent({
