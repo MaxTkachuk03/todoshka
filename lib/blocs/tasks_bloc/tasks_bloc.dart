@@ -21,7 +21,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<CreateTasksEvent>((event, emit) async {
       try {
-         emit(state.copyWith(
+        final tasks = Tasks(
           taskId: event.taskId,
           name: event.name,
           status: event.status,
@@ -30,16 +30,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
           file: event.file,
           finishDate: event.finishDate,
           urgent: event.urgent,
-        ));
-        final tasks = Tasks(
-          taskId: state.taskId,
-          name: state.name,
-          status: state.status,
-          type: state.type,
-          description: state.description,
-          file: state.file,
-          finishDate: state.finishDate,
-          urgent: state.urgent,
         );
 
         await tasksRepository.createTask(tasks: tasks);
