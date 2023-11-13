@@ -21,6 +21,7 @@ class _MainPageState extends State<MainPage> {
   int counter = 1;
   int type = 1;
   int status = 1;
+  final key = UniqueKey();
 
   final _tasksListBloc = TaskListBloc();
 
@@ -33,6 +34,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: PlusButton(
@@ -101,13 +103,13 @@ class _MainPageState extends State<MainPage> {
                     bloc: _tasksListBloc,
                     builder: (context, state) {
                       if (state is TasksListLoadedState) {
-                       return ListView.builder(
-                         itemCount: state.tasksList.length,
-                         itemBuilder: (context, index) {
+                        return ListView.builder(
+                          itemCount: state.tasksList.length,
+                          itemBuilder: (context, index) {
                             final listInfo = state.tasksList[index];
                             return TasksView(tasks: listInfo);
-                         },
-                       );
+                          },
+                        );
                       }
                       return const Center(
                         child: CircularProgressIndicator(),

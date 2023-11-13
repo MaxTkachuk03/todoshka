@@ -43,7 +43,7 @@ class UrgentTask extends StatelessWidget {
             ],
           ),
           Text(
-            S.of(context).works,
+            S.of(context).urgent,
             style: AppStyles.simpleStyle,
           ),
           const Spacer(flex: 7),

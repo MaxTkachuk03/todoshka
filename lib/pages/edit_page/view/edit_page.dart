@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,22 +30,30 @@ class _EditPageState extends State<EditPage> {
   final _controllerName = TextEditingController();
   final _controllerDescription = TextEditingController();
 
-  int urgent = 0;
-  int type = 0;
+  late int urgent;
+  late int type;
+  late DateTime date;
 
   static const double containerHeiht = 50.0;
   static const double containerHeight2 = 98.0;
   static const double sizedBoxHeight = 16.0;
 
   @override
+  void initState() {
+    urgent = widget.tasks.urgent;
+    type = widget.tasks.type;
+    date = widget.tasks.finishDate!;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => TasksBloc(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: AppThemes.backgrounDecoration,
-          child: BlocBuilder<TasksBloc, TasksState>(builder: (context, state) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: AppThemes.backgrounDecoration,
+        child: BlocBuilder<TasksBloc, TasksState>(
+          builder: (context, state) {
             return Column(
               children: [
                 const Spacer(),
@@ -75,14 +85,21 @@ class _EditPageState extends State<EditPage> {
                       Expanded(
                         child: IconButtonWrapper(
                           onPressed: () {
-                            context.read<TasksBloc>().add(CreateTasksEvent(
-                                  taskId: _controllerName.text,
-                                  name: _controllerName.text,
-                                  description: _controllerDescription.text,
-                                  finishDate: selectedDate,
-                                  type: type,
-                                  urgent: urgent,
-                                ));
+                            context.read<TasksBloc>().add(
+                                  CreateTasksEvent(
+                                    taskId: _controllerName.text == ''
+                                        ? widget.tasks.taskId
+                                        : _controllerName.text,
+                                    name: _controllerName.text == ''
+                                        ? widget.tasks.name
+                                        : _controllerName.text,
+                                    status: widget.tasks.status!,
+                                    type: type,
+                                    description: _controllerDescription.text,
+                                    finishDate: date,
+                                    urgent: urgent,
+                                  ),
+                                );
                             AutoRouter.of(context).push(const MainRoute());
                           },
                           icon: SvgPicture.asset(AppIcons.done),
@@ -93,7 +110,7 @@ class _EditPageState extends State<EditPage> {
                 ),
                 ChooseType(
                   containerHeiht: containerHeiht,
-                  counter: widget.tasks.type,
+                  counter: type,
                   onPressed: () {
                     setState(() {
                       type = 1;
@@ -115,21 +132,23 @@ class _EditPageState extends State<EditPage> {
                 const AttachFile(containerHeiht: containerHeiht),
                 const SizedBox(height: sizedBoxHeight),
                 CreateFinishDate(
-                  date: widget.tasks.finishDate!,
+                  date: date,
                   containerHeiht: containerHeiht,
                   onPressed: () async {
-                    await selectDate(context);
-                    setState(() {});
+                    await selectDate(context).then((value) {
+                      date = selectedDate;
+                      setState(() {});
+                    });
                   },
                   click: true,
                 ),
                 const SizedBox(height: sizedBoxHeight),
                 UrgentTask(
                     containerHeiht: containerHeiht,
-                    urgent: widget.tasks.urgent,
+                    urgent: urgent,
                     onPressed: () {
                       setState(() {
-                        if (widget.tasks.urgent == 0) {
+                        if (urgent == 0) {
                           urgent++;
                         } else {
                           urgent--;
@@ -150,7 +169,7 @@ class _EditPageState extends State<EditPage> {
                 const Spacer(),
               ],
             );
-          }),
+          },
         ),
       ),
     );

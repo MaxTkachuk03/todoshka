@@ -5,7 +5,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:todoshka/models/models.dart';
 
 class ApiServices {
-  static const _baseURL = 'https://to-do.softwars.com.ua';
+  static const _baseURL = 'https://to-do.softwars.com.ua/';
   final _dio = Dio(BaseOptions(baseUrl: _baseURL));
 
   Future<List<Tasks>> getTasks() async {
@@ -44,7 +44,7 @@ class ApiServices {
       '/tasks',
       data: [
         {
-          'taskId': tasks.taskId,
+          "taskId": tasks.taskId,
           'status': tasks.status,
           'name': tasks.name,
           'type': tasks.type,
@@ -53,14 +53,14 @@ class ApiServices {
           'finishDate': tasks.finishDate?.toIso8601String(),
           'urgent': tasks.urgent,
           'syncTime': DateTime.now().toIso8601String(),
-        }
+        },
       ],
     );
     if (response.statusCode == 201) {
       print('posted');
       return Tasks.fromJson(jsonDecode(response.data));
     } else {
-      throw Exception('Failed to load ');
+      throw Exception('Failed to load');
     }
   }
 
@@ -68,10 +68,13 @@ class ApiServices {
     required String taskId,
     required int status,
   }) async {
-    await _dio.put('/tasks/$taskId', data: {
-      'status': status,
-    });
-     print('updated status');
+    await _dio.put(
+      '/tasks//$taskId',
+      data: {
+        'status': status,
+      },
+    );
+    print('updated status');
   }
 
   Future<void> deleteTask({

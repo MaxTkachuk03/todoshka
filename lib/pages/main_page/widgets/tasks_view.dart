@@ -30,7 +30,7 @@ class TasksView extends StatelessWidget {
               Container(
                 height: 65.0,
                 decoration: BoxDecoration(
-                    color: tasks.urgent == 1 ? AppColors.red : AppColors.grey,
+                    color: tasks.urgent == 0 ? AppColors.grey : AppColors.red,
                     borderRadius:
                         const BorderRadius.all(Radius.circular(15.0))),
                 child: ListTile(
@@ -59,15 +59,17 @@ class TasksView extends StatelessWidget {
                         : SvgPicture.asset(AppIcons.taskDone),
                     onPressed: () {
                       if (tasks.status == 1) {
-                        print("status: ${tasks.status}");
                         context.read<TasksBloc>().add(
                             ChangeStatusEvent(taskId: tasks.taskId, status: 2));
-                      } if(tasks.status == 2) {
+                        const Duration(seconds: 3);
+                        AutoRouter.of(context).push(const MainRoute());
+                      } else {
                         context.read<TasksBloc>().add(
                             ChangeStatusEvent(taskId: tasks.taskId, status: 1));
+                        const Duration(seconds: 3);
+                        AutoRouter.of(context).push(const MainRoute());
                       }
                     },
-
                   ),
                 ),
               ),
@@ -78,7 +80,6 @@ class TasksView extends StatelessWidget {
     );
   }
 }
-
 
 /*
 

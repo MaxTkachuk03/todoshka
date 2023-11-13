@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tasks_bloc.dart';
 
 @immutable
-abstract class TasksEvent extends Equatable {}
+abstract class TasksEvent{}
 
 class ChangeStatusEvent extends TasksEvent {
   ChangeStatusEvent({
@@ -13,8 +12,8 @@ class ChangeStatusEvent extends TasksEvent {
   final int status;
   final String taskId;
 
-  @override
-  List<Object?> get props => [status];
+  // @override
+  // List<Object?> get props => [status];
 }
 
 class DeleteTasksEvent extends TasksEvent {
@@ -23,8 +22,8 @@ class DeleteTasksEvent extends TasksEvent {
   });
   final String taskId;
 
-  @override
-  List<Object?> get props => [taskId];
+  // @override
+  // List<Object?> get props => [taskId];
 }
 
 class CreateTasksEvent extends TasksEvent {
@@ -50,6 +49,33 @@ class CreateTasksEvent extends TasksEvent {
   final int urgent;
   final DateTime? syncTime;
 
-  @override
-  List<Object?> get props => [];
+  // @override
+  // List<Object?> get props => [];
+}
+
+class UpdateTasksEvent extends TasksEvent {
+  UpdateTasksEvent({
+    this.status = 0,
+    this.taskId = '',
+    this.name = '',
+    this.type = 0,
+    this.description,
+    this.file,
+    this.finishDate,
+    this.urgent = 0,
+    this.syncTime,
+  });
+
+  final String taskId;
+  final int status;
+  final String name;
+  final int type;
+  final String? description;
+  final String? file;
+  final DateTime? finishDate;
+  final int urgent;
+  final DateTime? syncTime;
+
+  // @override
+  // List<Object?> get props => [];
 }

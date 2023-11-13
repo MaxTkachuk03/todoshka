@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,7 +6,7 @@ part 'tasks_model.g.dart';
 //! Спробував розширення
 @JsonSerializable()
 class Tasks extends Equatable {
-  Tasks({
+  const Tasks({
     required this.taskId,
     required this.status,
     required this.name,
@@ -44,30 +43,6 @@ class Tasks extends Equatable {
       urgent,
       syncTime,
     ];
-  }
-
-  Tasks copyWith({
-    String? taskId,
-    int? status,
-    String? name,
-    int? type,
-    String? description,
-    String? file,
-    DateTime? finishDate,
-    int? urgent,
-    DateTime? syncTime,
-  }) {
-    return Tasks(
-      taskId: taskId ?? this.taskId,
-      status: status ?? this.status,
-      name: name ?? this.name,
-      type: type ?? this.type,
-      description: description ?? this.description,
-      file: file ?? this.file,
-      finishDate: finishDate ?? this.finishDate,
-      urgent: urgent ?? this.urgent,
-      syncTime: syncTime ?? this.syncTime,
-    );
   }
 }
 

@@ -1,7 +1,7 @@
 part of 'tasks_bloc.dart';
 
 @immutable
-class TasksState extends Equatable {
+class TasksState {
   const TasksState({
     this.status = 0,
     this.taskId = '',
@@ -24,18 +24,42 @@ class TasksState extends Equatable {
   final int urgent;
   final DateTime? syncTime;
 
-  @override
-  List<Object?> get props {
-    return [
-      taskId,
-      status,
-      name,
-      type,
-      description,
-      file,
-      finishDate,
-      urgent,
-      syncTime,
-    ];
+  // @override
+  // List<Object?> get props {
+  //   return [
+  //     taskId,
+  //     status,
+  //     name,
+  //     type,
+  //     description,
+  //     file,
+  //     finishDate,
+  //     urgent,
+  //     syncTime,
+  //   ];
+  // }
+
+  TasksState copyWith({
+    String? taskId,
+    int? status,
+    String? name,
+    int? type,
+    String? description,
+    String? file,
+    DateTime? finishDate,
+    int? urgent,
+    DateTime? syncTime,
+  }) {
+    return TasksState(
+      taskId: taskId ?? this.taskId,
+      status: status ?? this.status,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      file: file ?? this.file,
+      finishDate: finishDate ?? this.finishDate,
+      urgent: urgent ?? this.urgent,
+      syncTime: syncTime ?? this.syncTime,
+    );
   }
 }

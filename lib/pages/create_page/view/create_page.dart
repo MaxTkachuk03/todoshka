@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
+import 'package:todoshka/pages/pages.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/router/router.dart';
@@ -18,8 +21,8 @@ class CreatingPage extends StatefulWidget {
 }
 
 class _CreatingPageState extends State<CreatingPage> {
-  final name = TextEditingController();
-  final description = TextEditingController();
+  final _name = TextEditingController();
+  final _description = TextEditingController();
   bool click = false;
   int counter = 0;
   int urgent = 0;
@@ -50,7 +53,7 @@ class _CreatingPageState extends State<CreatingPage> {
                     ),
                     Expanded(
                       child: TextField(
-                        controller: name,
+                        controller: _name,
                         textAlign: TextAlign.center,
                         style: AppStyles.mainStyle,
                         decoration: InputDecoration(
@@ -80,7 +83,7 @@ class _CreatingPageState extends State<CreatingPage> {
               ),
               const SizedBox(height: sizedBoxHeight),
               DescriptionTask(
-                  containerHeight2: containerHeight2, controller: description),
+                  containerHeight2: containerHeight2, controller: _description),
               const SizedBox(height: sizedBoxHeight),
               const AttachFile(containerHeiht: containerHeiht),
               const SizedBox(height: sizedBoxHeight),
@@ -113,14 +116,15 @@ class _CreatingPageState extends State<CreatingPage> {
                 text: S.of(context).create,
                 onPressed: () {
                   context.read<TasksBloc>().add(CreateTasksEvent(
-                        taskId: name.text,
+                        taskId: _name.text,
                         status: 1,
-                        name: name.text,
+                        name: _name.text,
                         type: counter,
-                        description: description.text,
+                        description: _description.text,
                         urgent: urgent,
                         finishDate: selectedDate,
                       ));
+                      const Duration(seconds: 3);
                   AutoRouter.of(context).push(const MainRoute());
                 },
                 color: AppColors.yellow,
