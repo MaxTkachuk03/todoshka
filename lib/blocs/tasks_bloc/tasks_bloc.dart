@@ -51,10 +51,46 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<DeleteTasksEvent>((event, emit) async {
       try {
+        if (state.finishDate == state.syncTime) {
+          await tasksRepository.deleteTask(
+            taskId: event.taskId,
+          );
+        }
         await tasksRepository.deleteTask(
           taskId: event.taskId,
         );
         emit(TasksState(taskId: event.taskId));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<AddImageEvent>((event, emit) async {
+      try {
+        final file = await ImageServices().getImage();
+        if (file.isNotEmpty) {
+          emit(state.copyWith(file: file));
+        }
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteExistImageEvent>((event, emit) async {
+      try {
+        await tasksRepository.updateTaskImage(
+          file: "",
+          taskId: event.taskId,
+        );
+        emit(state.copyWith(file: "", taskId: event.taskId));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteNewImageEvent>((event, emit) async {
+      try {
+        emit(state.copyWith(file: ""));
       } catch (e) {
         Exception(e);
       }

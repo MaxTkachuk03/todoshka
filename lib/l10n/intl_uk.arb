@@ -9,5 +9,6 @@
     "urgent" : "Термінове",
     "endDate" : "Дата завершення:",
     "attachFile" : "Прикріпити файл",
-    "addDescription" : "Додати опис..."
+    "addDescription" : "Додати опис...",
+    "nestedImage" : "Вкладене зображення"
 }

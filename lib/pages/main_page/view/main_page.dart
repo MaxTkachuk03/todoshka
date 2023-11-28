@@ -106,8 +106,23 @@ class _MainPageState extends State<MainPage> {
                         return ListView.builder(
                           itemCount: state.tasksList.length,
                           itemBuilder: (context, index) {
-                            final listInfo = state.tasksList[index];
-                            return TasksView(tasks: listInfo);
+                            if (counter == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            if (counter == 2 &&
+                                state.tasksList[index].type == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            if (counter == 3 &&
+                                state.tasksList[index].type == 2) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            return Center(
+                              child: Container(),
+                            );
                           },
                         );
                       }

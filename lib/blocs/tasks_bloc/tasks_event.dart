@@ -1,7 +1,7 @@
 part of 'tasks_bloc.dart';
 
 @immutable
-abstract class TasksEvent{}
+abstract class TasksEvent extends Equatable {}
 
 class ChangeStatusEvent extends TasksEvent {
   ChangeStatusEvent({
@@ -12,8 +12,8 @@ class ChangeStatusEvent extends TasksEvent {
   final int status;
   final String taskId;
 
-  // @override
-  // List<Object?> get props => [status];
+  @override
+  List<Object?> get props => [status];
 }
 
 class DeleteTasksEvent extends TasksEvent {
@@ -22,8 +22,8 @@ class DeleteTasksEvent extends TasksEvent {
   });
   final String taskId;
 
-  // @override
-  // List<Object?> get props => [taskId];
+  @override
+  List<Object?> get props => [taskId];
 }
 
 class CreateTasksEvent extends TasksEvent {
@@ -49,8 +49,8 @@ class CreateTasksEvent extends TasksEvent {
   final int urgent;
   final DateTime? syncTime;
 
-  // @override
-  // List<Object?> get props => [];
+  @override
+  List<Object?> get props => [];
 }
 
 class UpdateTasksEvent extends TasksEvent {
@@ -76,6 +76,41 @@ class UpdateTasksEvent extends TasksEvent {
   final int urgent;
   final DateTime? syncTime;
 
-  // @override
-  // List<Object?> get props => [];
+  @override
+  List<Object?> get props => [];
+}
+
+class AddImageEvent extends TasksEvent {
+  AddImageEvent({
+    this.file = '',
+  });
+
+  final String file;
+
+  @override
+  List<Object?> get props => [file];
+}
+
+class DeleteExistImageEvent extends TasksEvent {
+  DeleteExistImageEvent({
+    this.file = '',
+    this.taskId = '',
+  });
+
+  final String file;
+  final String taskId;
+
+  @override
+  List<Object?> get props => [file, taskId];
+}
+
+class DeleteNewImageEvent extends TasksEvent {
+  DeleteNewImageEvent({
+    this.file = '',
+  });
+
+  final String file;
+
+  @override
+  List<Object?> get props => [file];
 }

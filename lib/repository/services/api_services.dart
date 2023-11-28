@@ -2,14 +2,18 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
 import 'package:todoshka/models/models.dart';
 
 class ApiServices {
-  static const _baseURL = 'https://to-do.softwars.com.ua/';
-  final _dio = Dio(BaseOptions(baseUrl: _baseURL));
+  ApiServices({
+    required this.dio,
+  });
+
+  final Dio dio;
 
   Future<List<Tasks>> getTasks() async {
-    _dio.interceptors.add(
+    dio.interceptors.add(
       PrettyDioLogger(
         request: false,
         responseBody: true,
@@ -18,7 +22,7 @@ class ApiServices {
       ),
     );
 
-    final response = await _dio.get('/tasks');
+    final response = await dio.get('/tasks');
     if (response.statusCode == 200) {
       return _fromJsonToList(response).toList();
     } else {
@@ -40,7 +44,7 @@ class ApiServices {
   Future<Tasks> createTask({
     required Tasks tasks,
   }) async {
-    final response = await _dio.post(
+    final response = await dio.post(
       '/tasks',
       data: [
         {
@@ -64,11 +68,24 @@ class ApiServices {
     }
   }
 
+  Future<void> updateTaskImage({
+    required String taskId,
+    required String file,
+  }) async {
+    await dio.put(
+      '/tasks//$taskId',
+      data: {
+        'file': file,
+      },
+    );
+    print('updated image');
+  }
+
   Future<void> updateTaskStatus({
     required String taskId,
     required int status,
   }) async {
-    await _dio.put(
+    await dio.put(
       '/tasks//$taskId',
       data: {
         'status': status,
@@ -81,7 +98,7 @@ class ApiServices {
     String? taskId,
   }) async {
     try {
-      await _dio.delete('/tasks//$taskId');
+      await dio.delete('/tasks//$taskId');
       print('User deleted!');
     } catch (e) {
       print('Error deleting user: $e');
