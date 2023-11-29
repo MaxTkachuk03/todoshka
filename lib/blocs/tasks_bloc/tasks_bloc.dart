@@ -8,7 +8,7 @@ part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  TasksBloc() : super(const TasksState()) {
+  TasksBloc(this.tasksRepository, this.image) : super(const TasksState()) {
     on<ChangeStatusEvent>((event, emit) async {
       try {
         await tasksRepository.updateTaskStatus(
@@ -51,6 +51,11 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<DeleteTasksEvent>((event, emit) async {
       try {
+        if (state.finishDate == state.syncTime) {
+          await tasksRepository.deleteTask(
+            taskId: event.taskId,
+          );
+        }
         await tasksRepository.deleteTask(
           taskId: event.taskId,
         );
@@ -59,7 +64,39 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         Exception(e);
       }
     });
+
+    on<AddImageEvent>((event, emit) async {
+      try {
+        final file = await image.getImage();
+        if (file.isNotEmpty) {
+          emit(state.copyWith(file: file));
+        }
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteExistImageEvent>((event, emit) async {
+      try {
+        await tasksRepository.updateTaskImage(
+          file: "",
+          taskId: event.taskId,
+        );
+        emit(state.copyWith(file: "", taskId: event.taskId));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteNewImageEvent>((event, emit) async {
+      try {
+        emit(state.copyWith(file: ""));
+      } catch (e) {
+        Exception(e);
+      }
+    });
   }
 
-  final tasksRepository = ApiServices();
+  final AbstractApiServices tasksRepository;
+  final ImageServices image;
 }

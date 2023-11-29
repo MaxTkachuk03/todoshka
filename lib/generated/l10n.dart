@@ -159,6 +159,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Вкладене зображення`
+  String get nestedImage {
+    return Intl.message(
+      'Вкладене зображення',
+      name: 'nestedImage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

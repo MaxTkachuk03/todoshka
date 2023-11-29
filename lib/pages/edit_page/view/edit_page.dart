@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +31,7 @@ class _EditPageState extends State<EditPage> {
   late int urgent;
   late int type;
   late DateTime date;
+  late String image;
 
   static const double containerHeiht = 50.0;
   static const double containerHeight2 = 98.0;
@@ -43,130 +42,161 @@ class _EditPageState extends State<EditPage> {
     urgent = widget.tasks.urgent;
     type = widget.tasks.type;
     date = widget.tasks.finishDate!;
+    image = widget.tasks.file!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Container(
         decoration: AppThemes.backgrounDecoration,
         child: BlocBuilder<TasksBloc, TasksState>(
+          buildWhen: (oldState, newState) {
+            if (newState.file != oldState.file) {
+              image = newState.file!;
+            }
+            return newState.file != oldState.file;
+          },
           builder: (context, state) {
-            return Column(
+            return ListView(
+              shrinkWrap: false,
               children: [
-                const Spacer(),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                          child: IconButtonWrapper(
-                        onPressed: () {
-                          AutoRouter.of(context).push(const MainRoute());
-                        },
-                        icon: SvgPicture.asset(AppIcons.back),
-                      )),
-                      Flexible(
-                          flex: 7,
-                          child: TextField(
-                            maxLines: 1,
-                            controller: _controllerName,
-                            textAlign: TextAlign.center,
-                            style: AppStyles.mainStyle,
-                            decoration: InputDecoration(
-                              hintText: widget.tasks.name,
-                              hintStyle: AppStyles.mainStyle,
-                              border: InputBorder.none,
-                            ),
-                            keyboardType: TextInputType.text,
-                          )),
-                      Expanded(
-                        child: IconButtonWrapper(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: sizedBoxHeight,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                            child: IconButtonWrapper(
                           onPressed: () {
-                            context.read<TasksBloc>().add(
-                                  CreateTasksEvent(
-                                    taskId: _controllerName.text == ''
-                                        ? widget.tasks.taskId
-                                        : _controllerName.text,
-                                    name: _controllerName.text == ''
-                                        ? widget.tasks.name
-                                        : _controllerName.text,
-                                    status: widget.tasks.status!,
-                                    type: type,
-                                    description: _controllerDescription.text,
-                                    finishDate: date,
-                                    urgent: urgent,
-                                  ),
-                                );
                             AutoRouter.of(context).push(const MainRoute());
                           },
-                          icon: SvgPicture.asset(AppIcons.done),
+                          icon: SvgPicture.asset(AppIcons.back),
+                        )),
+                        Flexible(
+                            flex: 7,
+                            child: TextField(
+                              maxLines: 1,
+                              controller: _controllerName,
+                              textAlign: TextAlign.center,
+                              style: AppStyles.mainStyle,
+                              decoration: InputDecoration(
+                                hintText: widget.tasks.name,
+                                hintStyle: AppStyles.mainStyle,
+                                border: InputBorder.none,
+                              ),
+                              keyboardType: TextInputType.text,
+                            )),
+                        Expanded(
+                          child: IconButtonWrapper(
+                            onPressed: () {
+                              context.read<TasksBloc>().add(
+                                    CreateTasksEvent(
+                                      taskId: widget.tasks.taskId,
+                                      name: _controllerName.text == ''
+                                          ? widget.tasks.name
+                                          : _controllerName.text,
+                                      status: widget.tasks.status!,
+                                      type: type,
+                                      description:
+                                          _controllerDescription.text == ""
+                                              ? widget.tasks.description
+                                              : _controllerDescription.text,
+                                      finishDate: date,
+                                      urgent: urgent,
+                                      file: state.file,
+                                    ),
+                                  );
+                              AutoRouter.of(context).push(const MainRoute());
+                            },
+                            icon: SvgPicture.asset(AppIcons.done),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                    //Expanded(child: Column()),
+                    ChooseType(
+                      containerHeiht: containerHeiht,
+                      counter: type,
+                      onPressed: () {
+                        setState(() {
+                          type = 1;
+                        });
+                      },
+                      onPressed2: () {
+                        setState(() {
+                          type = 2;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: sizedBoxHeight),
+                    DescriptionTask(
+                      containerHeight2: containerHeight2,
+                      controller: _controllerDescription,
+                      defaultDescription: widget.tasks.description,
+                    ),
+                    const SizedBox(height: sizedBoxHeight),
+                    image.isEmpty
+                        ? AttachFile(
+                            taskId: widget.tasks.taskId,
+                            containerHeiht: containerHeiht,
+                            onPressed: () {
+                              context.read<TasksBloc>().add(AddImageEvent());
+                            },
+                            file: state.file!,
+                          )
+                        : ExistImage(
+                            taskId: widget.tasks.taskId,
+                            file: image,
+                            containerHeiht: containerHeiht,
+                          ),
+                    const SizedBox(height: sizedBoxHeight),
+                    CreateFinishDate(
+                      date: date,
+                      containerHeiht: containerHeiht,
+                      onPressed: () async {
+                        await DateServices().selectDate(context).then((value) {
+                          date = DateServices().selectedDate;
+                          setState(() {});
+                        });
+                      },
+                      click: true,
+                    ),
+                    const SizedBox(height: sizedBoxHeight),
+                    UrgentTask(
+                        containerHeiht: containerHeiht,
+                        urgent: urgent,
+                        onPressed: () {
+                          setState(() {
+                            if (urgent == 0) {
+                              urgent++;
+                            } else {
+                              urgent--;
+                            }
+                          });
+                        }),
+                    const SizedBox(height: 20.0),
+                    OtherButton(
+                      text: S.of(context).delete,
+                      onPressed: () {
+                        context.read<TasksBloc>().add(DeleteTasksEvent(
+                              taskId: widget.tasks.taskId,
+                            ));
+                        AutoRouter.of(context).push(const MainRoute());
+                      },
+                      color: AppColors.red,
+                    ),
+                    const SizedBox(
+                      height: sizedBoxHeight,
+                    ),
+                  ],
                 ),
-                ChooseType(
-                  containerHeiht: containerHeiht,
-                  counter: type,
-                  onPressed: () {
-                    setState(() {
-                      type = 1;
-                    });
-                  },
-                  onPressed2: () {
-                    setState(() {
-                      type = 2;
-                    });
-                  },
-                ),
-                const SizedBox(height: sizedBoxHeight),
-                DescriptionTask(
-                  containerHeight2: containerHeight2,
-                  controller: _controllerDescription,
-                  defaultDescription: widget.tasks.description,
-                ),
-                const SizedBox(height: sizedBoxHeight),
-                const AttachFile(containerHeiht: containerHeiht),
-                const SizedBox(height: sizedBoxHeight),
-                CreateFinishDate(
-                  date: date,
-                  containerHeiht: containerHeiht,
-                  onPressed: () async {
-                    await selectDate(context).then((value) {
-                      date = selectedDate;
-                      setState(() {});
-                    });
-                  },
-                  click: true,
-                ),
-                const SizedBox(height: sizedBoxHeight),
-                UrgentTask(
-                    containerHeiht: containerHeiht,
-                    urgent: urgent,
-                    onPressed: () {
-                      setState(() {
-                        if (urgent == 0) {
-                          urgent++;
-                        } else {
-                          urgent--;
-                        }
-                      });
-                    }),
-                const SizedBox(height: 20.0),
-                OtherButton(
-                  text: S.of(context).delete,
-                  onPressed: () {
-                    context.read<TasksBloc>().add(DeleteTasksEvent(
-                          taskId: widget.tasks.taskId,
-                        ));
-                    AutoRouter.of(context).push(const MainRoute());
-                  },
-                  color: AppColors.red,
-                ),
-                const Spacer(),
               ],
             );
           },

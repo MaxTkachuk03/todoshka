@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/pages.dart';
+import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/router/router.dart';
 
@@ -23,7 +25,9 @@ class _MainPageState extends State<MainPage> {
   int status = 1;
   final key = UniqueKey();
 
-  final _tasksListBloc = TaskListBloc();
+  final _tasksListBloc = TaskListBloc(
+    GetIt.I<AbstractApiServices>(),
+  );
 
   @override
   void initState() {
@@ -106,8 +110,23 @@ class _MainPageState extends State<MainPage> {
                         return ListView.builder(
                           itemCount: state.tasksList.length,
                           itemBuilder: (context, index) {
-                            final listInfo = state.tasksList[index];
-                            return TasksView(tasks: listInfo);
+                            if (counter == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            if (counter == 2 &&
+                                state.tasksList[index].type == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            if (counter == 3 &&
+                                state.tasksList[index].type == 2) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            return Center(
+                              child: Container(),
+                            );
                           },
                         );
                       }

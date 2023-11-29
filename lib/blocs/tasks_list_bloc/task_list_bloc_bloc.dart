@@ -9,8 +9,8 @@ part 'task_list_bloc_event.dart';
 part 'task_list_bloc_state.dart';
 
 class TaskListBloc extends Bloc<TaskListBlocEvent, TaskListBlocState> {
-  final tasksRepository = ApiServices();
-  TaskListBloc() : super(TaskListBlocInitial()) {
+  final AbstractApiServices tasksRepository;
+  TaskListBloc(this.tasksRepository) : super(TaskListBlocInitial()) {
     on<GetTasksListEvent>((event, emit) async {
       try {
         final getTasks = await tasksRepository.getTasks();

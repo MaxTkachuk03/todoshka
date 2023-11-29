@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/widgets/widgets.dart';
 

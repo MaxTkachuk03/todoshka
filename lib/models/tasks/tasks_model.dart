@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tasks_model.g.dart';
 
 //! Спробував розширення
+@HiveType(typeId: 1)
 @JsonSerializable()
 class Tasks extends Equatable {
   const Tasks({
@@ -18,14 +20,23 @@ class Tasks extends Equatable {
     this.syncTime,
   });
 
+  @HiveField(0)
   final String taskId;
+  @HiveField(1)
   final int? status;
+  @HiveField(2)
   final String name;
+  @HiveField(3)
   final int type;
+  @HiveField(4)
   final String? description;
+  @HiveField(5)
   final String? file;
+  @HiveField(6)
   final DateTime? finishDate;
+  @HiveField(7)
   final int urgent;
+  @HiveField(8)
   final DateTime? syncTime;
 
   factory Tasks.fromJson(Map<String, dynamic> json) => _$TasksFromJson(json);

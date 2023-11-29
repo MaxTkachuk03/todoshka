@@ -1,12 +1,18 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-Future<bool> checkInternetConnection() async {
-  ConnectivityResult result = await (Connectivity().checkConnectivity());
+class InternetConnection {
+  const InternetConnection({
+    required this.connectivity,
+  });
+  final Connectivity connectivity;
 
-  if(result == ConnectivityResult.none){
-    return false;
-  }
-  else {
-    return true;
+  Future<bool> checkInternetConnection() async {
+    ConnectivityResult result = await (connectivity.checkConnectivity());
+
+    if (result == ConnectivityResult.none) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
