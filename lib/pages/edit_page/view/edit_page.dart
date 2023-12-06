@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
+import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/models/models.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/resources/resources.dart';
 import 'package:todoshka/router/router.dart';
 import 'package:todoshka/widgets/widgets.dart';
-
-import '../../../generated/l10n.dart';
 
 @RoutePage()
 class EditPage extends StatefulWidget {
@@ -150,6 +149,7 @@ class _EditPageState extends State<EditPage> {
                               context.read<TasksBloc>().add(AddImageEvent());
                             },
                             file: state.file ?? image,
+
                           )
                         : ExistImage(
                             taskId: widget.tasks.taskId,

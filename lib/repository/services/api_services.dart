@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -29,13 +28,14 @@ class ApiServices extends AbstractApiServices {
       ),
     );
     final List<Tasks> tasks = await _getTasksFromApi();
-    final tasksMap = {for(var e in tasks) e.name: e};
+    final tasksMap = {for (var e in tasks) e.name: e};
     await tasksBox.putAll(tasksMap);
     return tasks;
   }
 
   Future<List<Tasks>> _getTasksFromApi() async {
-      final response = await dio.get('/tasks');
+    final response = await dio.get('/tasks');
+
     if (response.statusCode == 200) {
       return _fromJsonToList(response).toList();
     } else {
@@ -54,7 +54,6 @@ class ApiServices extends AbstractApiServices {
     return data.map((tasks) => Tasks.fromJson(tasks)).toList();
   }
 
-  
   @override
   Future<Tasks> createTask({
     required Tasks tasks,
@@ -94,10 +93,10 @@ class ApiServices extends AbstractApiServices {
         'file': file,
       },
     );
+
     debugPrint('updated image');
   }
 
-  
   @override
   Future<void> updateTaskStatus({
     required String taskId,
@@ -118,6 +117,7 @@ class ApiServices extends AbstractApiServices {
   }) async {
     try {
       await dio.delete('/tasks//$taskId');
+
       debugPrint('User deleted!');
     } catch (e) {
       debugPrint('Error deleting user: $e');

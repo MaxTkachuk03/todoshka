@@ -102,6 +102,7 @@ class _CreatingPageState extends State<CreatingPage> {
                     containerHeiht: containerHeiht,
                     onPressed: () async {
                       date = await GetIt.I<DateServices>().selectDate(context);
+
                       setState(() {
                         click = true;
                       });

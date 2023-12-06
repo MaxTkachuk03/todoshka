@@ -10,7 +10,6 @@ import 'package:todoshka/todo_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   final connectivity = Connectivity();
 
   GetIt.instance.registerLazySingleton(
@@ -52,7 +51,6 @@ void main() async {
       tasksBox: box,
     ),
   );
-
 
   runApp(const ToDoApp());
 }

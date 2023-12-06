@@ -71,6 +71,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
             taskId: event.taskId,
           );
         }
+
         if (internet == true) {
           await tasksRepository.deleteTask(taskId: event.taskId);
           tasksLocal.deleteLocalTask(taskId: event.taskId);
@@ -78,6 +79,37 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
           tasksLocal.deleteLocalTask(taskId: event.taskId);
         }
         emit(TasksState(taskId: event.taskId));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<AddImageEvent>((event, emit) async {
+      try {
+        final file = await image.getImage();
+        if (file.isNotEmpty) {
+          emit(state.copyWith(file: file));
+        }
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteExistImageEvent>((event, emit) async {
+      try {
+        await tasksRepository.updateTaskImage(
+          file: "",
+          taskId: event.taskId,
+        );
+        emit(state.copyWith(file: "", taskId: event.taskId));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<DeleteNewImageEvent>((event, emit) async {
+      try {
+        emit(state.copyWith(file: ""));
       } catch (e) {
         Exception(e);
       }
