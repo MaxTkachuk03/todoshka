@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/pages.dart';
@@ -27,11 +28,21 @@ class _MainPageState extends State<MainPage> {
 
   final _tasksListBloc = TaskListBloc(
     GetIt.I<AbstractApiServices>(),
+    GetIt.I<InternetConnection>(),
+    GetIt.instance<AbstarctLocalServices>(),
+  );
+
+  final _tasksBloc = TasksBloc(
+    GetIt.I<AbstractApiServices>(),
+    GetIt.I<ImageServices>(),
+    GetIt.I<InternetConnection>(),
+    GetIt.I<AbstarctLocalServices>(),
   );
 
   @override
   void initState() {
     _tasksListBloc.add(GetTasksListEvent());
+    //_tasksBloc.add(DeleteTasksEvent());
     super.initState();
   }
 

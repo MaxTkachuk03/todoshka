@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'package:todoshka/models/models.dart';
@@ -10,9 +12,11 @@ import 'package:todoshka/repository/repository.dart';
 class ApiServices extends AbstractApiServices {
   ApiServices({
     required this.dio,
+    required this.tasksBox,
   });
 
   final Dio dio;
+  final Box<Tasks> tasksBox;
 
   @override
   Future<List<Tasks>> getTasks() async {
@@ -24,8 +28,14 @@ class ApiServices extends AbstractApiServices {
         maxWidth: 90,
       ),
     );
+    final List<Tasks> tasks = await _getTasksFromApi();
+    final tasksMap = {for(var e in tasks) e.name: e};
+    await tasksBox.putAll(tasksMap);
+    return tasks;
+  }
 
-    final response = await dio.get('/tasks');
+  Future<List<Tasks>> _getTasksFromApi() async {
+      final response = await dio.get('/tasks');
     if (response.statusCode == 200) {
       return _fromJsonToList(response).toList();
     } else {

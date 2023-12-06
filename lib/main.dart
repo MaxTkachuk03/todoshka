@@ -9,6 +9,8 @@ import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/todo_app.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final connectivity = Connectivity();
 
   GetIt.instance.registerLazySingleton(
@@ -17,12 +19,21 @@ void main() async {
     ),
   );
 
+  const String tasksBox = 'tasksBox';
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(TasksAdapter());
+
+  final box = await Hive.openBox<Tasks>(tasksBox);
+
   const baseURL = 'https://to-do.softwars.com.ua/';
+
   final dio = Dio(BaseOptions(baseUrl: baseURL));
 
   GetIt.I.registerLazySingleton<AbstractApiServices>(
     () => ApiServices(
       dio: dio,
+      tasksBox: box,
     ),
   );
 
@@ -36,15 +47,12 @@ void main() async {
     ),
   );
 
-  const String tasksBox = 'tasksBox';
+  GetIt.I.registerLazySingleton<AbstarctLocalServices>(
+    () => LocalServices(
+      tasksBox: box,
+    ),
+  );
 
-  final localBase = Hive;
-
-  localBase
-    ..initFlutter()
-    ..registerAdapter(TasksAdapter());
-
-  final box = await localBase.openBox(tasksBox);
 
   runApp(const ToDoApp());
 }

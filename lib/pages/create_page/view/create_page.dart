@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/repository/repository.dart';
@@ -23,7 +24,7 @@ class _CreatingPageState extends State<CreatingPage> {
   bool click = false;
   int counter = 0;
   int urgent = 0;
-  //late String image;
+  DateTime date = DateTime.now();
 
   static const double containerHeiht = 50.0;
   static const double containerHeight2 = 98.0;
@@ -100,12 +101,12 @@ class _CreatingPageState extends State<CreatingPage> {
                     click: click,
                     containerHeiht: containerHeiht,
                     onPressed: () async {
-                      await DateServices().selectDate(context);
+                      date = await GetIt.I<DateServices>().selectDate(context);
                       setState(() {
                         click = true;
                       });
                     },
-                    date: DateServices().selectedDate,
+                    date: date,
                   ),
                   const SizedBox(height: sizedBoxHeight),
                   UrgentTask(
@@ -132,7 +133,7 @@ class _CreatingPageState extends State<CreatingPage> {
                             description: _description.text,
                             file: state.file,
                             urgent: urgent,
-                            finishDate: DateServices().selectedDate,
+                            finishDate: date,
                           ));
                       const Duration(seconds: 3);
                       AutoRouter.of(context).push(const MainRoute());

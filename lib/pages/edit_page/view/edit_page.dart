@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/models/models.dart';
 import 'package:todoshka/repository/repository.dart';
@@ -41,8 +42,8 @@ class _EditPageState extends State<EditPage> {
   void initState() {
     urgent = widget.tasks.urgent;
     type = widget.tasks.type;
-    date = widget.tasks.finishDate!;
-    image = widget.tasks.file!;
+    date = widget.tasks.finishDate ?? DateTime.now();
+    image = widget.tasks.file ?? "";
     super.initState();
   }
 
@@ -120,7 +121,6 @@ class _EditPageState extends State<EditPage> {
                         ),
                       ],
                     ),
-                    //Expanded(child: Column()),
                     ChooseType(
                       containerHeiht: containerHeiht,
                       counter: type,
@@ -149,7 +149,7 @@ class _EditPageState extends State<EditPage> {
                             onPressed: () {
                               context.read<TasksBloc>().add(AddImageEvent());
                             },
-                            file: state.file!,
+                            file: state.file ?? image,
                           )
                         : ExistImage(
                             taskId: widget.tasks.taskId,
@@ -161,8 +161,10 @@ class _EditPageState extends State<EditPage> {
                       date: date,
                       containerHeiht: containerHeiht,
                       onPressed: () async {
-                        await DateServices().selectDate(context).then((value) {
-                          date = DateServices().selectedDate;
+                        await GetIt.I<DateServices>()
+                            .selectDate(context)
+                            .then((value) {
+                          date = GetIt.I<DateServices>().selectedDate;
                           setState(() {});
                         });
                       },

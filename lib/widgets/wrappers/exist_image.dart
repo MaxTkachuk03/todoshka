@@ -60,6 +60,9 @@ class ExistImage extends StatelessWidget {
                             context.read<TasksBloc>().add(DeleteExistImageEvent(
                                   taskId: taskId,
                                 ));
+                            // context.read<TasksBloc>().add(CreateTasksEvent(
+                            //   file: file,
+                            // ));
                           }
                         },
                       ),

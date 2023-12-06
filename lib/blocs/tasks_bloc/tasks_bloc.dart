@@ -8,11 +8,17 @@ part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  TasksBloc(this.tasksRepository, this.image) : super(const TasksState()) {
+  TasksBloc(
+      this.tasksRepository, this.image, this.checkInternet, this.tasksLocal)
+      : super(const TasksState()) {
     on<ChangeStatusEvent>((event, emit) async {
       try {
-        await tasksRepository.updateTaskStatus(
-            taskId: event.taskId, status: event.status);
+        final internet = await checkInternet.checkInternetConnection();
+
+        if (internet == true) {
+          await tasksRepository.updateTaskStatus(
+              taskId: event.taskId, status: event.status);
+        }
         emit(TasksState(taskId: event.taskId, status: event.status));
       } catch (e) {
         Exception(e);
@@ -21,6 +27,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<CreateTasksEvent>((event, emit) async {
       try {
+        final internet = await checkInternet.checkInternetConnection();
+
         final tasks = Tasks(
           taskId: event.taskId,
           name: event.name,
@@ -32,7 +40,12 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
           urgent: event.urgent,
         );
 
-        await tasksRepository.createTask(tasks: tasks);
+        if (internet == true) {
+          await tasksRepository.createTask(tasks: tasks);
+          tasksLocal.createLocalTask(tasks: tasks);
+        } else {
+          tasksLocal.createLocalTask(tasks: tasks);
+        }
 
         emit(state.copyWith(
           taskId: event.taskId,
@@ -51,14 +64,19 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<DeleteTasksEvent>((event, emit) async {
       try {
-        if (state.finishDate == state.syncTime) {
+        final internet = await checkInternet.checkInternetConnection();
+
+        if (state.finishDate == DateTime.now()) {
           await tasksRepository.deleteTask(
             taskId: event.taskId,
           );
         }
-        await tasksRepository.deleteTask(
-          taskId: event.taskId,
-        );
+        if (internet == true) {
+          await tasksRepository.deleteTask(taskId: event.taskId);
+          tasksLocal.deleteLocalTask(taskId: event.taskId);
+        } else {
+          tasksLocal.deleteLocalTask(taskId: event.taskId);
+        }
         emit(TasksState(taskId: event.taskId));
       } catch (e) {
         Exception(e);
@@ -99,4 +117,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   final AbstractApiServices tasksRepository;
   final ImageServices image;
+  final InternetConnection checkInternet;
+  final AbstarctLocalServices tasksLocal;
 }

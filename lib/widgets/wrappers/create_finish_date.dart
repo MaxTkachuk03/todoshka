@@ -9,7 +9,8 @@ class CreateFinishDate extends StatelessWidget {
     super.key,
     required this.containerHeiht,
     required this.click,
-    required this.onPressed, required this.date,
+    required this.onPressed,
+    required this.date,
   });
 
   final double containerHeiht;

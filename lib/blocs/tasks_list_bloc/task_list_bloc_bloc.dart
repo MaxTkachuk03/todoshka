@@ -10,11 +10,21 @@ part 'task_list_bloc_state.dart';
 
 class TaskListBloc extends Bloc<TaskListBlocEvent, TaskListBlocState> {
   final AbstractApiServices tasksRepository;
-  TaskListBloc(this.tasksRepository) : super(TaskListBlocInitial()) {
+  final InternetConnection checkInternet;
+  final AbstarctLocalServices tasksLocal;
+  TaskListBloc(this.tasksRepository, this.checkInternet, this.tasksLocal)
+      : super(TaskListBlocInitial()) {
     on<GetTasksListEvent>((event, emit) async {
       try {
-        final getTasks = await tasksRepository.getTasks();
-        emit(TasksListLoadedState(tasksList: getTasks));
+        final internet = await checkInternet.checkInternetConnection();
+
+        if (internet == true) {
+          final getTasks = await tasksRepository.getTasks();
+          emit(TasksListLoadedState(tasksList: getTasks));
+        } else {
+          final getLocalTasks = tasksLocal.getLocalList();
+          emit(TasksListLoadedState(tasksList: getLocalTasks));
+        }
       } catch (e) {
         emit(TasksListErrorLoadState(exception: e));
       } finally {

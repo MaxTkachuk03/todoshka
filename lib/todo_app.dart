@@ -25,12 +25,16 @@ class _ToDoAppState extends State<ToDoApp> {
         BlocProvider(
           create: (context) => TaskListBloc(
             GetIt.I<AbstractApiServices>(),
+            GetIt.I<InternetConnection>(),
+            GetIt.instance<AbstarctLocalServices>(),
           ),
         ),
         BlocProvider(
           create: (context) => TasksBloc(
             GetIt.I<AbstractApiServices>(),
             GetIt.I<ImageServices>(),
+            GetIt.I<InternetConnection>(),
+            GetIt.I<AbstarctLocalServices>(),
           ),
         ),
       ],
