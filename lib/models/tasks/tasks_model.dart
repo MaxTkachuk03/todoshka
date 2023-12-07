@@ -8,7 +8,7 @@ part 'tasks_model.g.dart';
 @HiveType(typeId: 1)
 @JsonSerializable()
 class Tasks extends Equatable {
-  Tasks({
+  const Tasks({
     required this.taskId,
     required this.status,
     required this.name,
@@ -31,7 +31,7 @@ class Tasks extends Equatable {
   @HiveField(4)
   final String? description;
   @HiveField(5)
-  String? file;
+  final String? file;
   @HiveField(6)
   final DateTime? finishDate;
   @HiveField(7)

@@ -15,9 +15,27 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       try {
         final internet = await checkInternet.checkInternetConnection();
 
+        void localStatus() {
+          tasksLocal.updateLocalTaskImageOrStatus(
+              taskId: event.taskId,
+              tasks: Tasks(
+                taskId: event.taskId,
+                name: state.name,
+                status: event.status,
+                type: state.type,
+                description: state.description,
+                file: state.file,
+                finishDate: state.finishDate,
+                urgent: state.urgent,
+              ));
+        }
+
         if (internet == true) {
           await tasksRepository.updateTaskStatus(
               taskId: event.taskId, status: event.status);
+          //   localStatus();
+        } else {
+          //   localStatus();
         }
         emit(TasksState(taskId: event.taskId, status: event.status));
       } catch (e) {
@@ -41,8 +59,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         );
 
         if (internet == true) {
-          await tasksRepository.createTask(tasks: tasks);
           tasksLocal.createLocalTask(tasks: tasks);
+          await tasksRepository.createTask(tasks: tasks);
         } else {
           tasksLocal.createLocalTask(tasks: tasks);
         }
@@ -66,15 +84,9 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       try {
         final internet = await checkInternet.checkInternetConnection();
 
-        if (state.finishDate == DateTime.now()) {
-          await tasksRepository.deleteTask(
-            taskId: event.taskId,
-          );
-        }
-
         if (internet == true) {
-          await tasksRepository.deleteTask(taskId: event.taskId);
           tasksLocal.deleteLocalTask(taskId: event.taskId);
+          await tasksRepository.deleteTask(taskId: event.taskId);
         } else {
           tasksLocal.deleteLocalTask(taskId: event.taskId);
         }
@@ -97,41 +109,32 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
     on<DeleteExistImageEvent>((event, emit) async {
       try {
-        await tasksRepository.updateTaskImage(
-          file: "",
-          taskId: event.taskId,
-        );
-        emit(state.copyWith(file: "", taskId: event.taskId));
-      } catch (e) {
-        Exception(e);
-      }
-    });
+        final internet = await checkInternet.checkInternetConnection();
 
-    on<DeleteNewImageEvent>((event, emit) async {
-      try {
-        emit(state.copyWith(file: ""));
-      } catch (e) {
-        Exception(e);
-      }
-    });
-
-    on<AddImageEvent>((event, emit) async {
-      try {
-        final file = await image.getImage();
-        if (file.isNotEmpty) {
-          emit(state.copyWith(file: file));
+        void localStatus() {
+          tasksLocal.updateLocalTaskImageOrStatus(
+              taskId: event.taskId,
+              tasks: Tasks(
+                taskId: event.taskId,
+                name: state.name,
+                status: state.status,
+                type: state.type,
+                description: state.description,
+                file: "",
+                finishDate: state.finishDate,
+                urgent: state.urgent,
+              ));
         }
-      } catch (e) {
-        Exception(e);
-      }
-    });
 
-    on<DeleteExistImageEvent>((event, emit) async {
-      try {
-        await tasksRepository.updateTaskImage(
-          file: "",
-          taskId: event.taskId,
-        );
+        if (internet == true) {
+          localStatus();
+          await tasksRepository.updateTaskImage(
+            file: "",
+            taskId: event.taskId,
+          );
+        } else {
+          localStatus();
+        }
         emit(state.copyWith(file: "", taskId: event.taskId));
       } catch (e) {
         Exception(e);
@@ -141,6 +144,14 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<DeleteNewImageEvent>((event, emit) async {
       try {
         emit(state.copyWith(file: ""));
+      } catch (e) {
+        Exception(e);
+      }
+    });
+
+    on<SynchronizeTasksEvent>((event, emit) async {
+      try {
+        await tasksRepository.synchronizeData(locaL: tasksLocal);
       } catch (e) {
         Exception(e);
       }

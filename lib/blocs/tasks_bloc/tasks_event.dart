@@ -114,3 +114,8 @@ class DeleteNewImageEvent extends TasksEvent {
   @override
   List<Object?> get props => [file];
 }
+
+class SynchronizeTasksEvent extends TasksEvent {
+  @override
+  List<Object?> get props => [];
+}

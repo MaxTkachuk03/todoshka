@@ -23,16 +23,12 @@ class LocalServices extends AbstarctLocalServices {
   @override
   List<Tasks> getLocalList() {
     final List<Tasks> tasks = tasksBox.values.toList();
-    // cryptoCoinsList
-    //     .sort((a, b) => b.details.priceInUSD.compareTo(a.details.priceInUSD));
     return tasks;
   }
 
   @override
-  void updateLocalTaskStatus({required String taskId, required int status}) {}
-
-  @override
-  void updateLocalTaskImage({required String taskId,required String file}) {
-    //tasksBox.getAt(0)?.file = file;
+  void updateLocalTaskImageOrStatus(
+      {required String taskId, required Tasks tasks}) {
+    tasksBox.put(taskId, tasks);
   }
 }

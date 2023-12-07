@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todoshka/blocs/data_synchronize_bloc/bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
 import 'package:todoshka/repository/repository.dart';
@@ -34,6 +35,13 @@ class _ToDoAppState extends State<ToDoApp> {
             GetIt.I<AbstractApiServices>(),
             GetIt.I<ImageServices>(),
             GetIt.I<InternetConnection>(),
+            GetIt.I<AbstarctLocalServices>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DataSyncronizeBloc(
+            GetIt.I<InternetConnection>(),
+            GetIt.I<AbstractApiServices>(),
             GetIt.I<AbstarctLocalServices>(),
           ),
         ),

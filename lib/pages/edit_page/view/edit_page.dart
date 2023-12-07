@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todoshka/blocs/data_synchronize_bloc/bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/models/models.dart';
@@ -149,7 +150,6 @@ class _EditPageState extends State<EditPage> {
                               context.read<TasksBloc>().add(AddImageEvent());
                             },
                             file: state.file ?? image,
-
                           )
                         : ExistImage(
                             taskId: widget.tasks.taskId,

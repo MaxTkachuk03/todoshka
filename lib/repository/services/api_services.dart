@@ -123,4 +123,25 @@ class ApiServices extends AbstractApiServices {
       debugPrint('Error deleting user: $e');
     }
   }
+
+  Future<void> _updateDataOnApi(List<Tasks> tasks) async {
+    final List<Map<String, dynamic>> tasksSync =
+        tasks.map((item) => item.toJson()).toList();
+
+    try {
+      final response = await dio.post(
+        "/tasks",
+        data: tasksSync,
+      );
+      debugPrint(response.data);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  @override
+  Future<void> synchronizeData({required AbstarctLocalServices locaL}) async {
+    final List<Tasks> localData = locaL.getLocalList();
+    await _updateDataOnApi(localData);
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todoshka/blocs/data_synchronize_bloc/bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/repository/repository.dart';
@@ -36,8 +37,8 @@ class _CreatingPageState extends State<CreatingPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: AppThemes.backgrounDecoration,
-        child:
-            BlocBuilder<TasksBloc, TasksState>(buildWhen: (oldState, newState) {
+        child: BlocBuilder<TasksBloc, TasksState>(
+            buildWhen: (oldState, newState) {
           return newState.file != oldState.file;
         }, builder: (context, state) {
           return ListView(
@@ -101,8 +102,8 @@ class _CreatingPageState extends State<CreatingPage> {
                     click: click,
                     containerHeiht: containerHeiht,
                     onPressed: () async {
-                      date = await GetIt.I<DateServices>().selectDate(context);
-
+                      date =
+                          await GetIt.I<DateServices>().selectDate(context);
                       setState(() {
                         click = true;
                       });
