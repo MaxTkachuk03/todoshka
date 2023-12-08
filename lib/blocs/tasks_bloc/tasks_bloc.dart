@@ -15,8 +15,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       try {
         final internet = await checkInternet.checkInternetConnection();
 
-        void localStatus() {
-          tasksLocal.updateLocalTaskImageOrStatus(
+        Future<void> localStatus() async {
+          await tasksLocal.updateLocalTaskImageOrStatus(
               taskId: event.taskId,
               tasks: Tasks(
                 taskId: event.taskId,
@@ -31,11 +31,11 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         }
 
         if (internet == true) {
+        //  await localStatus();
           await tasksRepository.updateTaskStatus(
               taskId: event.taskId, status: event.status);
-          //   localStatus();
         } else {
-          //   localStatus();
+          await localStatus();
         }
         emit(TasksState(taskId: event.taskId, status: event.status));
       } catch (e) {
@@ -59,10 +59,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         );
 
         if (internet == true) {
-          tasksLocal.createLocalTask(tasks: tasks);
+          await tasksLocal.createLocalTask(tasks: tasks);
           await tasksRepository.createTask(tasks: tasks);
         } else {
-          tasksLocal.createLocalTask(tasks: tasks);
+          await tasksLocal.createLocalTask(tasks: tasks);
         }
 
         emit(state.copyWith(
@@ -85,10 +85,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         final internet = await checkInternet.checkInternetConnection();
 
         if (internet == true) {
-          tasksLocal.deleteLocalTask(taskId: event.taskId);
+          await tasksLocal.deleteLocalTask(taskId: event.taskId);
           await tasksRepository.deleteTask(taskId: event.taskId);
         } else {
-          tasksLocal.deleteLocalTask(taskId: event.taskId);
+          await tasksLocal.deleteLocalTask(taskId: event.taskId);
         }
         emit(TasksState(taskId: event.taskId));
       } catch (e) {
@@ -111,8 +111,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       try {
         final internet = await checkInternet.checkInternetConnection();
 
-        void localStatus() {
-          tasksLocal.updateLocalTaskImageOrStatus(
+        Future<void> localStatus() async {
+          await tasksLocal.updateLocalTaskImageOrStatus(
               taskId: event.taskId,
               tasks: Tasks(
                 taskId: event.taskId,
@@ -127,13 +127,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         }
 
         if (internet == true) {
-          localStatus();
+          await localStatus();
           await tasksRepository.updateTaskImage(
             file: "",
             taskId: event.taskId,
           );
         } else {
-          localStatus();
+          await localStatus();
         }
         emit(state.copyWith(file: "", taskId: event.taskId));
       } catch (e) {

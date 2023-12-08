@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todoshka/blocs/data_synchronize_bloc/bloc/data_synchronize_bloc.dart';
+import 'package:todoshka/blocs/data_synchronize_bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/pages.dart';
@@ -41,7 +41,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     _tasksListBloc.add(GetTasksListEvent());
-    _dataSyncronizeBloc.add(const DataSyncronizeEvent());
     super.initState();
   }
 
@@ -107,54 +106,46 @@ class _MainPageState extends State<MainPage> {
               ),
               Expanded(
                 flex: 16,
-                child: BlocBuilder<DataSyncronizeBloc, DataSyncronizeState>(
-                    bloc: _dataSyncronizeBloc,
-                    buildWhen: (prevState, newState) {
-                      return prevState != newState;
-                    },
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    final completer = Completer();
+                    _tasksListBloc.add(GetTasksListEvent(completer: completer));
+                    // _dataSyncronizeBloc.add(const DataSyncronizeEvent());
+                    return completer.future;
+                  },
+                  child: BlocBuilder<TaskListBloc, TaskListBlocState>(
+                    bloc: _tasksListBloc,
                     builder: (context, state) {
-                      return RefreshIndicator(
-                        onRefresh: () async {
-                          final completer = Completer();
-                          _dataSyncronizeBloc.add(const DataSyncronizeEvent());
-                          _tasksListBloc
-                              .add(GetTasksListEvent(completer: completer));
-                          return completer.future;
-                        },
-                        child: BlocBuilder<TaskListBloc, TaskListBlocState>(
-                          bloc: _tasksListBloc,
-                          builder: (context, state) {
-                            if (state is TasksListLoadedState) {
-                              return ListView.builder(
-                                itemCount: state.tasksList.length,
-                                itemBuilder: (context, index) {
-                                  if (counter == 1) {
-                                    final listInfo = state.tasksList[index];
-                                    return TasksView(tasks: listInfo);
-                                  }
-                                  if (counter == 2 &&
-                                      state.tasksList[index].type == 1) {
-                                    final listInfo = state.tasksList[index];
-                                    return TasksView(tasks: listInfo);
-                                  }
-                                  if (counter == 3 &&
-                                      state.tasksList[index].type == 2) {
-                                    final listInfo = state.tasksList[index];
-                                    return TasksView(tasks: listInfo);
-                                  }
-                                  return Center(
-                                    child: Container(),
-                                  );
-                                },
-                              );
+                      if (state is TasksListLoadedState) {
+                        return ListView.builder(
+                          itemCount: state.tasksList.length,
+                          itemBuilder: (context, index) {
+                            if (counter == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
                             }
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            if (counter == 2 &&
+                                state.tasksList[index].type == 1) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            if (counter == 3 &&
+                                state.tasksList[index].type == 2) {
+                              final listInfo = state.tasksList[index];
+                              return TasksView(tasks: listInfo);
+                            }
+                            return Center(
+                              child: Container(),
                             );
                           },
-                        ),
+                        );
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
+                    },
+                  ),
+                ),
               ),
               const Spacer(flex: 4),
             ],

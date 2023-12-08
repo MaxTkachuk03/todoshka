@@ -11,13 +11,13 @@ class LocalServices extends AbstarctLocalServices {
   final Box<Tasks> tasksBox;
 
   @override
-  void createLocalTask({required Tasks tasks}) {
-    tasksBox.put(tasks.taskId, tasks);
+  Future<void> createLocalTask({required Tasks tasks}) async {
+    await tasksBox.put(tasks.taskId, tasks);
   }
 
   @override
-  void deleteLocalTask({String? taskId}) async {
-    tasksBox.delete(taskId);
+  Future<void> deleteLocalTask({required String taskId}) async {
+    await tasksBox.deleteFromDisk();
   }
 
   @override
@@ -27,8 +27,8 @@ class LocalServices extends AbstarctLocalServices {
   }
 
   @override
-  void updateLocalTaskImageOrStatus(
-      {required String taskId, required Tasks tasks}) {
-    tasksBox.put(taskId, tasks);
+  Future<void> updateLocalTaskImageOrStatus(
+      {required String taskId, required Tasks tasks}) async {
+    await tasksBox.put(taskId, tasks);
   }
 }

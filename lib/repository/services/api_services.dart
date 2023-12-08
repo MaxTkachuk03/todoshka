@@ -28,7 +28,7 @@ class ApiServices extends AbstractApiServices {
       ),
     );
     final List<Tasks> tasks = await _getTasksFromApi();
-    final tasksMap = {for (var e in tasks) e.name: e};
+    final Map<String, Tasks> tasksMap = {for (var e in tasks) e.name: e};
     await tasksBox.putAll(tasksMap);
     return tasks;
   }

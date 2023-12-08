@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todoshka/blocs/data_synchronize_bloc/bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_bloc/tasks_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/models/models.dart';
@@ -55,9 +54,6 @@ class _EditPageState extends State<EditPage> {
         decoration: AppThemes.backgrounDecoration,
         child: BlocBuilder<TasksBloc, TasksState>(
           buildWhen: (oldState, newState) {
-            if (newState.file != oldState.file) {
-              image = newState.file!;
-            }
             return newState.file != oldState.file;
           },
           builder: (context, state) {
@@ -99,7 +95,9 @@ class _EditPageState extends State<EditPage> {
                             onPressed: () {
                               context.read<TasksBloc>().add(
                                     CreateTasksEvent(
-                                      taskId: widget.tasks.taskId,
+                                      taskId: _controllerName.text == ''
+                                          ? widget.tasks.name
+                                          : _controllerName.text,
                                       name: _controllerName.text == ''
                                           ? widget.tasks.name
                                           : _controllerName.text,
@@ -190,6 +188,8 @@ class _EditPageState extends State<EditPage> {
                         context.read<TasksBloc>().add(DeleteTasksEvent(
                               taskId: widget.tasks.taskId,
                             ));
+
+                        debugPrint(widget.tasks.taskId);
                         AutoRouter.of(context).push(const MainRoute());
                       },
                       color: AppColors.red,
