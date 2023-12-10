@@ -19,6 +19,7 @@ class TaskListBloc extends Bloc<TaskListBlocEvent, TaskListBlocState> {
         final internet = await checkInternet.checkInternetConnection();
 
         if (internet == true) {
+          await tasksRepository.synchronizeData(locaL: tasksLocal);
           final getTasks = await tasksRepository.getTasks();
           emit(TasksListLoadedState(tasksList: getTasks));
         } else {

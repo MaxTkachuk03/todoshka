@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -8,7 +10,7 @@ part 'tasks_model.g.dart';
 @HiveType(typeId: 1)
 @JsonSerializable()
 class Tasks extends Equatable {
-  const Tasks({
+  Tasks({
     required this.taskId,
     required this.status,
     required this.name,
@@ -23,7 +25,7 @@ class Tasks extends Equatable {
   @HiveField(0)
   final String taskId;
   @HiveField(1)
-  final int? status;
+  int? status;
   @HiveField(2)
   final String name;
   @HiveField(3)
@@ -31,7 +33,7 @@ class Tasks extends Equatable {
   @HiveField(4)
   final String? description;
   @HiveField(5)
-  final String? file;
+  String? file;
   @HiveField(6)
   final DateTime? finishDate;
   @HiveField(7)

@@ -16,22 +16,14 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         final internet = await checkInternet.checkInternetConnection();
 
         Future<void> localStatus() async {
-          await tasksLocal.updateLocalTaskImageOrStatus(
-              taskId: event.taskId,
-              tasks: Tasks(
-                taskId: event.taskId,
-                name: state.name,
-                status: event.status,
-                type: state.type,
-                description: state.description,
-                file: state.file,
-                finishDate: state.finishDate,
-                urgent: state.urgent,
-              ));
+          await tasksLocal.updateLocalTaskStatus(
+            taskId: event.taskId,
+            status: event.status,
+          );
         }
 
         if (internet == true) {
-        //  await localStatus();
+          await localStatus();
           await tasksRepository.updateTaskStatus(
               taskId: event.taskId, status: event.status);
         } else {
@@ -111,31 +103,37 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       try {
         final internet = await checkInternet.checkInternetConnection();
 
-        Future<void> localStatus() async {
-          await tasksLocal.updateLocalTaskImageOrStatus(
-              taskId: event.taskId,
-              tasks: Tasks(
-                taskId: event.taskId,
-                name: state.name,
-                status: state.status,
-                type: state.type,
-                description: state.description,
-                file: "",
-                finishDate: state.finishDate,
-                urgent: state.urgent,
-              ));
+        Future<void> localImage() async {
+          await tasksLocal.updateLocalTaskImage(
+            taskId: event.taskId,
+            file: "",
+          );
         }
 
         if (internet == true) {
-          await localStatus();
           await tasksRepository.updateTaskImage(
             file: "",
             taskId: event.taskId,
           );
+          await tasksLocal.updateLocalTaskImage(
+            taskId: event.taskId,
+            file: "",
+          );
+          emit(state.copyWith(
+          taskId: event.taskId,
+          file: "",
+        ));
         } else {
-          await localStatus();
+          await localImage();
+          emit(state.copyWith(
+          taskId: event.taskId,
+          file: "",
+        ));
         }
-        emit(state.copyWith(file: "", taskId: event.taskId));
+        // emit(state.copyWith(
+        //   taskId: event.taskId,
+        //   file: "",
+        // ));
       } catch (e) {
         Exception(e);
       }

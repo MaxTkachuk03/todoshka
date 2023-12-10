@@ -42,7 +42,7 @@ class _EditPageState extends State<EditPage> {
     urgent = widget.tasks.urgent;
     type = widget.tasks.type;
     date = widget.tasks.finishDate ?? DateTime.now();
-    image = widget.tasks.file ?? "";
+    image = widget.tasks.file!;
     super.initState();
   }
 
@@ -54,6 +54,8 @@ class _EditPageState extends State<EditPage> {
         decoration: AppThemes.backgrounDecoration,
         child: BlocBuilder<TasksBloc, TasksState>(
           buildWhen: (oldState, newState) {
+            image = newState.file ?? "";
+
             return newState.file != oldState.file;
           },
           builder: (context, state) {
@@ -147,7 +149,7 @@ class _EditPageState extends State<EditPage> {
                             onPressed: () {
                               context.read<TasksBloc>().add(AddImageEvent());
                             },
-                            file: state.file ?? image,
+                            file: image,// ?? image,
                           )
                         : ExistImage(
                             taskId: widget.tasks.taskId,

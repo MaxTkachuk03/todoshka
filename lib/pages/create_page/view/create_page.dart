@@ -25,6 +25,7 @@ class _CreatingPageState extends State<CreatingPage> {
   int counter = 0;
   int urgent = 0;
   DateTime date = DateTime.now();
+  String image = "";
 
   static const double containerHeiht = 50.0;
   static const double containerHeight2 = 98.0;
@@ -36,8 +37,9 @@ class _CreatingPageState extends State<CreatingPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: AppThemes.backgrounDecoration,
-        child: BlocBuilder<TasksBloc, TasksState>(
-            buildWhen: (oldState, newState) {
+        child:
+            BlocBuilder<TasksBloc, TasksState>(buildWhen: (oldState, newState) {
+              image = newState.file ?? "";
           return newState.file != oldState.file;
         }, builder: (context, state) {
           return ListView(
@@ -94,15 +96,14 @@ class _CreatingPageState extends State<CreatingPage> {
                     onPressed: () {
                       context.read<TasksBloc>().add(AddImageEvent());
                     },
-                    file: state.file ?? "",
+                    file: image,
                   ),
                   const SizedBox(height: sizedBoxHeight),
                   CreateFinishDate(
                     click: click,
                     containerHeiht: containerHeiht,
                     onPressed: () async {
-                      date =
-                          await GetIt.I<DateServices>().selectDate(context);
+                      date = await GetIt.I<DateServices>().selectDate(context);
                       setState(() {
                         click = true;
                       });

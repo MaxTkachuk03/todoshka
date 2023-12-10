@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todoshka/blocs/data_synchronize_bloc/data_synchronize_bloc.dart';
 import 'package:todoshka/blocs/tasks_list_bloc/task_list_bloc_bloc.dart';
 import 'package:todoshka/generated/l10n.dart';
 import 'package:todoshka/pages/pages.dart';
@@ -32,15 +31,10 @@ class _MainPageState extends State<MainPage> {
     GetIt.instance<AbstarctLocalServices>(),
   );
 
-  final _dataSyncronizeBloc = DataSyncronizeBloc(
-    GetIt.I<InternetConnection>(),
-    GetIt.I<AbstractApiServices>(),
-    GetIt.I<AbstarctLocalServices>(),
-  );
-
   @override
   void initState() {
     _tasksListBloc.add(GetTasksListEvent());
+  //  _dataSyncronizeBloc.add(const DataSyncronizeEvent());
     super.initState();
   }
 

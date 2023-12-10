@@ -27,8 +27,20 @@ class LocalServices extends AbstarctLocalServices {
   }
 
   @override
-  Future<void> updateLocalTaskImageOrStatus(
-      {required String taskId, required Tasks tasks}) async {
-    await tasksBox.put(taskId, tasks);
+  Future<void> updateLocalTaskImage(
+      {required String taskId, required String file}) async {
+    final Tasks? record = tasksBox.get(taskId);
+    if (record != null) {
+      record.file = file;
+    }
+  }
+
+   @override
+  Future<void> updateLocalTaskStatus(
+      {required String taskId, required int status}) async {
+    final Tasks? record = tasksBox.get(taskId);
+    if (record != null) {
+      record.status = status;
+    }
   }
 }
