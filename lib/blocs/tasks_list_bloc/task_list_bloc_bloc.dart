@@ -20,6 +20,7 @@ class TaskListBloc extends Bloc<TaskListBlocEvent, TaskListBlocState> {
 
         if (internet == true) {
           await tasksRepository.synchronizeData(locaL: tasksLocal);
+          Timer(const Duration(seconds: 3), () {});
           final getTasks = await tasksRepository.getTasks();
           emit(TasksListLoadedState(tasksList: getTasks));
         } else {
