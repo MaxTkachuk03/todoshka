@@ -97,9 +97,7 @@ class _EditPageState extends State<EditPage> {
                             onPressed: () {
                               context.read<TasksBloc>().add(
                                     CreateTasksEvent(
-                                      taskId: _controllerName.text == ''
-                                          ? widget.tasks.name
-                                          : _controllerName.text,
+                                      taskId: widget.tasks.name,
                                       name: _controllerName.text == ''
                                           ? widget.tasks.name
                                           : _controllerName.text,
@@ -149,7 +147,7 @@ class _EditPageState extends State<EditPage> {
                             onPressed: () {
                               context.read<TasksBloc>().add(AddImageEvent());
                             },
-                            file: image,// ?? image,
+                            file: image, // ?? image,
                           )
                         : ExistImage(
                             taskId: widget.tasks.taskId,
@@ -190,8 +188,6 @@ class _EditPageState extends State<EditPage> {
                         context.read<TasksBloc>().add(DeleteTasksEvent(
                               taskId: widget.tasks.taskId,
                             ));
-
-                        debugPrint(widget.tasks.taskId);
                         AutoRouter.of(context).push(const MainRoute());
                       },
                       color: AppColors.red,

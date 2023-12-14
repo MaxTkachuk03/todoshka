@@ -18,12 +18,12 @@ class ChangeStatusEvent extends TasksEvent {
 
 class DeleteTasksEvent extends TasksEvent {
   DeleteTasksEvent({
-    this.taskId = '',
+    required this.taskId,
   });
   final String taskId;
 
   @override
-  List<Object?> get props => [taskId];
+  List<Object?> get props => [];
 }
 
 class CreateTasksEvent extends TasksEvent {
@@ -113,9 +113,4 @@ class DeleteNewImageEvent extends TasksEvent {
 
   @override
   List<Object?> get props => [file];
-}
-
-class SynchronizeTasksEvent extends TasksEvent {
-  @override
-  List<Object?> get props => [];
 }

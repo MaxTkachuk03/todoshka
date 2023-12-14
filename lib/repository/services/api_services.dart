@@ -117,7 +117,6 @@ class ApiServices extends AbstractApiServices {
   }) async {
     try {
       await dio.delete('/tasks//$taskId');
-
       debugPrint('User deleted!');
     } catch (e) {
       debugPrint('Error deleting user: $e');
@@ -131,9 +130,10 @@ class ApiServices extends AbstractApiServices {
     try {
       final response = await dio.post(
         "/tasks",
-        data: tasksSync,
+        data: [tasksSync],
       );
       debugPrint(response.data);
+      dio.close();
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -141,6 +141,8 @@ class ApiServices extends AbstractApiServices {
 
   @override
   Future<void> synchronizeData({required AbstarctLocalServices locaL}) async {
+    final apiData = await getTasks();
+    apiData.clear();
     final List<Tasks> localData = locaL.getLocalList();
     await _updateDataOnApi(localData);
   }

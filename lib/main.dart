@@ -8,6 +8,7 @@ import 'package:todoshka/models/models.dart';
 import 'package:todoshka/repository/repository.dart';
 import 'package:todoshka/todo_app.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final connectivity = Connectivity();
@@ -52,5 +53,5 @@ void main() async {
     ),
   );
 
-  runApp(const ToDoApp());
+    runApp(const ToDoApp());
 }

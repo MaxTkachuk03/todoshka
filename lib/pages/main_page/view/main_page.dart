@@ -34,7 +34,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     _tasksListBloc.add(GetTasksListEvent());
-  //  _dataSyncronizeBloc.add(const DataSyncronizeEvent());
     super.initState();
   }
 
@@ -104,7 +103,6 @@ class _MainPageState extends State<MainPage> {
                   onRefresh: () async {
                     final completer = Completer();
                     _tasksListBloc.add(GetTasksListEvent(completer: completer));
-                    // _dataSyncronizeBloc.add(const DataSyncronizeEvent());
                     return completer.future;
                   },
                   child: BlocBuilder<TaskListBloc, TaskListBlocState>(

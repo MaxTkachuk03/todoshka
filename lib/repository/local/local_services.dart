@@ -17,7 +17,7 @@ class LocalServices extends AbstarctLocalServices {
 
   @override
   Future<void> deleteLocalTask({required String taskId}) async {
-    await tasksBox.deleteFromDisk();
+    await tasksBox.delete(taskId);
   }
 
   @override
