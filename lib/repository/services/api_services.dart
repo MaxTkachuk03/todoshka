@@ -130,7 +130,7 @@ class ApiServices extends AbstractApiServices {
     try {
       final response = await dio.post(
         "/tasks",
-        data: [tasksSync],
+        data: tasksSync,
       );
       debugPrint(response.data);
       dio.close();
